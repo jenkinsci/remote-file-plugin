@@ -35,7 +35,7 @@ THE SOFTWARE.
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>Remote Jenkins File Plugin</name>
-    <description>Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projects.
+    <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
     </description>
     <url></url>
     <licenses>

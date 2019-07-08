@@ -23,7 +23,7 @@
  -->
 <?jelly escape-by-default='true'?>
 <st:compress xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
-  Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projects.
+  Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
   This file should contain a valid
   <a target="_blank" href="https://github.com/jenkinsci/workflow-plugin/blob/master/TUTORIAL.md#understanding-flow-scripts">Jenkins Pipeline script</a>.
   See also:
