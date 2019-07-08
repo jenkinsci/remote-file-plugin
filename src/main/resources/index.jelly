@@ -24,5 +24,5 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <div>
-  Run your pipelines with Jenkins files which are from other Central Repository.
+  Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projeccts.
 </div>

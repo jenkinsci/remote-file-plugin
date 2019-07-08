@@ -7,11 +7,11 @@
     <version>3.43</version>
     <relativePath />
   </parent>
-  <artifactId>remote-jenkins-file-plugin</artifactId>
+  <artifactId>remote-jenkins-file</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
-  <name>Remote Jenkins File Plugin</name>
-  <description></description>
+  <name>Remote Jenkins File</name>
+  <description>Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projects.</description>
   <url></url>
   <licenses>
     <license>
