@@ -15,6 +15,11 @@ import org.kohsuke.stapler.DataBoundSetter;
 
 import java.util.Collection;
 
+/**
+ * This class extends @{@link WorkflowBranchProjectFactory} to inject defined Jenkins file and repository in
+ * Remote Jenkins File Plugin
+ * @author Aytunc BEKEN, aytuncbeken.ab@gmail.com
+ */
 public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranchProjectFactory {
 
 
@@ -23,6 +28,11 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     private SCM remoteJenkinsFileSCM;
 
 
+    /**
+     * Jenkins @{@link DataBoundSetter}
+     *
+     * @param remoteJenkinsFile path of the Jenkinsfile
+     */
     @DataBoundSetter
     public void setRemoteJenkinsFile(String remoteJenkinsFile) {
         if (StringUtils.isEmpty(remoteJenkinsFile)) {
@@ -32,31 +42,56 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
         }
     }
 
+    /**
+     * Jenkins @{@link DataBoundSetter}
+     *
+     * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
+     */
     @DataBoundSetter
     public void setRemoteJenkinsFileSCM(SCM remoteJenkinsFileSCM) {
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
     }
 
 
+    /**
+     * Jenkins @{@link DataBoundConstructor}
+     *
+     * @param remoteJenkinsFile    path of the Jenkinsfile
+     * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
+     */
     @DataBoundConstructor
     public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
     }
 
+    /**
+     * Extends @{@link WorkflowBranchProjectFactory}
+     *
+     * @return @{@link FlowDefinition}
+     */
     @Override
     protected FlowDefinition createDefinition() {
         return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM);
     }
 
+    /**
+     * Extends @{@link WorkflowBranchProjectFactory}
+     *
+     * @param source @{@link SCMSource}
+     * @return @{@link SCMSourceCriteria}
+     */
     @Override
     protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
         return (SCMSourceCriteria) (probe, taskListener) -> {
-            taskListener.getLogger().println("Ignoring Jenkins file check in Source Code SCM");
+            taskListener.getLogger().println("Ignoring Jenkins file checking in Source Code SCM, Jenkins file will be provided by Remote Jenkins File Plugin");
             return true;
         };
     }
 
+    /**
+     * Descriptor Implementation for @{@link org.jenkinsci.plugins.workflow.multibranch.AbstractWorkflowMultiBranchProjectFactory}
+     */
     @Extension
     public static class DescriptorImpl extends AbstractWorkflowBranchProjectFactoryDescriptor {
         @Override
@@ -69,10 +104,18 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
         }
     }
 
+    /**
+     * Default getter method
+     * @return @this.remoteJenkinsFile
+     */
     public String getRemoteJenkinsFile() {
         return remoteJenkinsFile;
     }
 
+    /**
+     * Default getter method
+     * @return @this.remoteJenkinsFile
+     */
     public SCM getRemoteJenkinsFileSCM() {
         return remoteJenkinsFileSCM;
     }
