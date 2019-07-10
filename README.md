@@ -27,4 +27,4 @@ In summary, Using MultiBranch Pipeline Jobs with Remote File Plugin you can;
 - Review or restrict changes
 - Apply changes to all Pipelines in seconds
 
-You can see details on [Remote File Plugin Wiki Pages](https://wiki.jenkins.io/display/JENKINS/Remote+File+Plugin)
+You can see details on [Remote File Plugin Wiki Page](https://wiki.jenkins.io/display/JENKINS/Remote+File+Plugin)
