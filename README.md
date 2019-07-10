@@ -1,4 +1,4 @@
-Remote Jenkins File Plugin
+Remote File Plugin
 ==========================
 
 This plugin enables definition of external Jenkins file from another repository for MultiBranch Pipelines.
