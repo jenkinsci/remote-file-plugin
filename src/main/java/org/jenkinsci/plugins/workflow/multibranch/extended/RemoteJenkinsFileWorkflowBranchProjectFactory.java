@@ -23,7 +23,7 @@ import java.util.Collection;
 public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranchProjectFactory {
 
 
-    private final String defaultJenkinsFile = "Jenkinsfile";
+    private static final String defaultJenkinsFile = "Jenkinsfile";
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
 
@@ -36,7 +36,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     @DataBoundSetter
     public void setRemoteJenkinsFile(String remoteJenkinsFile) {
         if (StringUtils.isEmpty(remoteJenkinsFile)) {
-            this.remoteJenkinsFile = defaultJenkinsFile;
+            this.remoteJenkinsFile = RemoteJenkinsFileWorkflowBranchProjectFactory.defaultJenkinsFile;
         } else {
             this.remoteJenkinsFile = remoteJenkinsFile;
         }

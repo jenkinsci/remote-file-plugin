@@ -52,6 +52,11 @@ THE SOFTWARE.
             <email>aytuncbeken.ab@gmail.com</email>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:git:ssh://github.com/jenkinsci/remote-file-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/remote-file-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/remote-file-plugin</url>
+    </scm>
     <properties>
         <java.level>8</java.level>
         <java.version>1.8</java.version>
@@ -211,6 +216,11 @@ THE SOFTWARE.
                 <groupId>org.jenkins-ci.tools</groupId>
                 <artifactId>maven-hpi-plugin</artifactId>
                 <version>3.5</version>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.11</version>
             </plugin>
         </plugins>
     </build>
