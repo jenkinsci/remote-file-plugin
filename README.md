@@ -16,11 +16,11 @@ For eliminating this you can used <a href="https://jenkins.io/doc/book/pipeline/
 However when you are in an large-scaled/enterprise environments with hundreds/thousands of developers with lots of repositories,
 you need to somehow protect the content/stability of the Jenkins Pipeline Scripts to avoid failures. 
 
-In this point Remote Jenkins File Plugin comes in. With this plugin you can define/set Jenkins files from another
+In this point Remote File Plugin comes in. With this plugin you can define/set Jenkins files from another
 repository while still able to use MultiBranch Pipeline Project features. This way you will be able to centralize all Jenkins files 
 in another repository where you can review or restrict changes and use MultiBranch Pipeline for multi branched repositories.
 
-In summary, Using MultiBranch Pipeline Jobs with Remote Jenkins File Plugin you can;
+In summary, Using MultiBranch Pipeline Jobs with Remote File Plugin you can;
 
 - Centralize Jenkins Files in another repository
 - Easily maintain
