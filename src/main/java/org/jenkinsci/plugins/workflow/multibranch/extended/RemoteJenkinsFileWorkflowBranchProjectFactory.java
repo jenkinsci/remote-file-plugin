@@ -26,6 +26,8 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     private static final String defaultJenkinsFile = "Jenkinsfile";
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
+    private boolean matchBranches;
+    private String scmSourceBranchName;
 
 
     /**
@@ -60,9 +62,10 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM) {
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, Boolean matchBranches) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
+        this.matchBranches = matchBranches;
     }
 
     /**
@@ -72,7 +75,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Override
     protected FlowDefinition createDefinition() {
-        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM);
+        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches);
     }
 
     /**
@@ -84,6 +87,8 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     @Override
     protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
         return (SCMSourceCriteria) (probe, taskListener) -> {
+            //Set SCM Source Branch name to check later if matchBranches flag is true
+            this.setScmSourceBranchName(probe.name());
             taskListener.getLogger().println("Ignoring Jenkins file checking in Source Code SCM, Jenkins file will be provided by Remote Jenkins File Plugin");
             return true;
         };
@@ -118,5 +123,22 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     public SCM getRemoteJenkinsFileSCM() {
         return remoteJenkinsFileSCM;
+    }
+
+    @DataBoundSetter
+    public void setMatchBranches(boolean matchBranches) {
+        this.matchBranches = matchBranches;
+    }
+
+    public boolean getMatchBranches() {
+        return matchBranches;
+    }
+
+    public void setScmSourceBranchName(String scmSourceBranchName) {
+        this.scmSourceBranchName = scmSourceBranchName;
+    }
+
+    public String getScmSourceBranchName() {
+        return scmSourceBranchName;
     }
 }
