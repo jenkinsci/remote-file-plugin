@@ -67,7 +67,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
         {
             try {
                 //Try to create pipeline from branch name from which discovered as Pipeline in MultiBranch
-                GitSCM scm = this.generateNewSCM("muz");
+                /*GitSCM scm = this.generateNewSCM("muz");
                 scm.checkout();
                 Run run = (Run) handle.getExecutable();
                 EnvVars envVars = run.getEnvironment(listener);
@@ -75,10 +75,10 @@ public class ExtendedSCMBinder extends FlowDefinition {
                 GitClient gitClient = scm.createClient(listener,envVars, (Run<?, ?>) handle.getExecutable(),workspace);
                 gitClient.init();
                 Set<Branch> remoteBranches = gitClient.getRemoteBranches();
-                scm.getBuildChooser()
+                scm.getBuildChooser()*/
 
 
-                return new CpsScmFlowDefinition(this.generateNewSCM("muz"), this.remoteJenkinsFile).create(handle, listener, actions);
+                return new CpsScmFlowDefinition(this.generateNewSCM(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
             }
             catch (Exception ex) {
                 if( ex instanceof AbortException) {
