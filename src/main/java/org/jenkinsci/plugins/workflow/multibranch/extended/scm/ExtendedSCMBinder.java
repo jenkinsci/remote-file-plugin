@@ -62,33 +62,22 @@ public class ExtendedSCMBinder extends FlowDefinition {
      */
     @Override
     public FlowExecution create(FlowExecutionOwner handle, TaskListener listener, List<? extends Action> actions) throws Exception {
-        SCMDescriptor scmDescriptor = this.remoteJenkinsFileSCM.getDescriptor();
         if (this.matchBranches && this.remoteJenkinsFileSCM instanceof GitSCM)
         {
             try {
-                //Try to create pipeline from branch name from which discovered as Pipeline in MultiBranch
-                /*GitSCM scm = this.generateNewSCM("muz");
-                scm.checkout();
-                Run run = (Run) handle.getExecutable();
-                EnvVars envVars = run.getEnvironment(listener);
-                FilePath workspace = new FilePath(handle.getRootDir());
-                GitClient gitClient = scm.createClient(listener,envVars, (Run<?, ?>) handle.getExecutable(),workspace);
-                gitClient.init();
-                Set<Branch> remoteBranches = gitClient.getRemoteBranches();
-                scm.getBuildChooser()*/
-
-
-                return new CpsScmFlowDefinition(this.generateNewSCM(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
+                return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
             }
             catch (Exception ex) {
                 if( ex instanceof AbortException) {
                     // This can be reason of there is no branch named in the Remote File Repository
-                    // Fallback to master
-                    return new CpsScmFlowDefinition(this.generateNewSCM(fallbackBranch), this.remoteJenkinsFile).create(handle, listener, actions);
+                    // Fallback to master branch
+                    listener.getLogger().println("Failed to checkout for " + this.scmSourceBranchName + " branch for Jenkins File.  ");
+                    listener.getLogger().println("Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ");
+                    return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(fallbackBranch), this.remoteJenkinsFile).create(handle, listener, actions);
                 }
             }
         }
-        // It matchBranches not checked or SCM is not GitSCM, return with Remote File SCM as defined in Jenkins
+        // If matchBranches not checked or SCM is not GitSCM, return with Remote File SCM as defined in Jenkins
         return new CpsScmFlowDefinition(this.remoteJenkinsFileSCM, this.remoteJenkinsFile).create(handle, listener, actions);
     }
 
@@ -121,9 +110,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     }
 
-    private GitSCM generateNewSCM(String branchName) {
+    private GitSCM generateSCMWithNewBranch(String branchName) {
         GitSCM configuredGitSCM = (GitSCM) this.remoteJenkinsFileSCM;
-        List<BranchSpec> branchSpecs = Arrays.asList(new BranchSpec(branchName));
-        return new GitSCM(configuredGitSCM.getUserRemoteConfigs(),branchSpecs,configuredGitSCM.isDoGenerateSubmoduleConfigurations(),configuredGitSCM.getSubmoduleCfg(),configuredGitSCM.getBrowser(),configuredGitSCM.getGitTool(),configuredGitSCM.getExtensions());
+        return new GitSCM(configuredGitSCM.getUserRemoteConfigs(), Collections.singletonList(new BranchSpec(branchName)),configuredGitSCM.isDoGenerateSubmoduleConfigurations(),configuredGitSCM.getSubmoduleCfg(),configuredGitSCM.getBrowser(),configuredGitSCM.getGitTool(),configuredGitSCM.getExtensions());
     }
 }
