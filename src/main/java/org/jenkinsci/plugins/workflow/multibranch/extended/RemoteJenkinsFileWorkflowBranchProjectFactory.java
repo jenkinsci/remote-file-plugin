@@ -125,19 +125,36 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
         return remoteJenkinsFileSCM;
     }
 
+
+    /**
+     *Jenkins @{@link DataBoundSetter}
+     * @param matchBranches True to enable match branches feature
+     */
     @DataBoundSetter
     public void setMatchBranches(boolean matchBranches) {
         this.matchBranches = matchBranches;
     }
 
+    /**
+     * Default getter method
+     * @return @this.matchBranches
+     */
     public boolean getMatchBranches() {
         return matchBranches;
     }
 
+    /**
+     * Set  @this.scmSourceBranchName to be used in new scm definition with new branch name
+     * @param scmSourceBranchName Current branch name which MultiBranch pipeline working on.
+     */
     public void setScmSourceBranchName(String scmSourceBranchName) {
         this.scmSourceBranchName = scmSourceBranchName;
     }
 
+    /**
+     * Default getter method
+     * @return @this.scmSourceBranchName
+     */
     public String getScmSourceBranchName() {
         return scmSourceBranchName;
     }

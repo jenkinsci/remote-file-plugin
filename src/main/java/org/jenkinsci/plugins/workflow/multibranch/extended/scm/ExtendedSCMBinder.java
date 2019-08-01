@@ -115,6 +115,11 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     }
 
+    /**
+     * Genereate new @{@link SCM} object with a given branch name from defined Remote Jenkins File SCM definition
+     * @param branchName Branch name to use in new @{@link SCM}
+     * @return new @{@link SCM} defined with new branch
+     */
     private GitSCM generateSCMWithNewBranch(String branchName) {
         GitSCM configuredGitSCM = (GitSCM) this.remoteJenkinsFileSCM;
         return new GitSCM(configuredGitSCM.getUserRemoteConfigs(), Collections.singletonList(new BranchSpec(branchName)), configuredGitSCM.isDoGenerateSubmoduleConfigurations(), configuredGitSCM.getSubmoduleCfg(), configuredGitSCM.getBrowser(), configuredGitSCM.getGitTool(), configuredGitSCM.getExtensions());
