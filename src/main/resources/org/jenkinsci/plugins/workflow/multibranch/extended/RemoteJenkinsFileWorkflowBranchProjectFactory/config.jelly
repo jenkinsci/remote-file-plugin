@@ -27,7 +27,7 @@ THE SOFTWARE.
     <f:entry title="${%Script Path}" field="remoteJenkinsFile">
         <f:textbox default="Jenkinsfile"/>
     </f:entry>
-    <f:entry title="Match branches">
+    <f:entry title="Match branches" help="/plugin/remote-file/help-matchBranches.html">
         <f:checkbox field="matchBranches"> </f:checkbox>
     </f:entry>
     <f:dropdownDescriptorSelector field="remoteJenkinsFileSCM" title="Jenkinsfile SCM" descriptors="${descriptor.applicableDescriptors}"/>
