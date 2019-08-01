@@ -1,6 +1,6 @@
 <div>
-    Muz Relative location within the checkout of your Pipeline script.
-    Note that it will always be run inside a Groovy sandbox.
-    Default is <code>Jenkinsfile</code> if left empty.
-    (just use <code>checkout scm</code> to retrieve sources from the same location as is configured here)
+    Remote File Plugin tries to find matching branch in repository which defined in Plugin SCM definition with in the Branch Sources SCM definition.<br>
+    By this, Jenkins Files will be used in the branch of Jenkins File repository which have the same branch name in code source repository.<br>
+    <b>Branch Specifier will be ignored if this options is checked.</b><br>
+    If plugin can not find same branch name in the Jenkins File repository, it will automatically fall back to master branch and search for Jenkins file in it.
 </div>
