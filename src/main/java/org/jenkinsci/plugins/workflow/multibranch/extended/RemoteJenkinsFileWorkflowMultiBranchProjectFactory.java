@@ -28,6 +28,8 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     private String localFile;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
+    private boolean matchBranches;
+    private String scmSourceBranchName;
 
     private RemoteJenkinsFileWorkflowMultiBranchProjectFactory() {
     }
@@ -73,10 +75,11 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localFile, String remoteJenkinsFile, SCM remoteJenkinsFileSCM) {
+    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localFile, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, Boolean matchBranches) {
         this.localFile = localFile;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
+        this.matchBranches = matchBranches;
     }
 
     /**
@@ -93,7 +96,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
             if (this.remoteJenkinsFileSCM == null || StringUtils.isEmpty(this.remoteJenkinsFile)) {
                 return false;
             }
-
+            this.setScmSourceBranchName(probe.name());
             // Match all if local file is not specified
             if (StringUtils.isEmpty(this.localFile)) {
                 taskListener.getLogger().println("Not local file defined, skipping checking in Source Code SCM, Jenkins file will be provided by Remote Jenkins File Plugin");
@@ -163,8 +166,41 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     @Override
     protected void customize(WorkflowMultiBranchProject project) {
-        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.remoteJenkinsFileSCM);
+        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.getMatchBranches());
         project.setProjectFactory(projectFactory);
+    }
+
+    /**
+     *Jenkins @{@link DataBoundSetter}
+     * @param matchBranches True to enable match branches feature
+     */
+    @DataBoundSetter
+    public void setMatchBranches(boolean matchBranches) {
+        this.matchBranches = matchBranches;
+    }
+
+    /**
+     * Default getter method
+     * @return @this.matchBranches
+     */
+    public boolean getMatchBranches() {
+        return matchBranches;
+    }
+
+    /**
+     * Set  @this.scmSourceBranchName to be used in new scm definition with new branch name
+     * @param scmSourceBranchName Current branch name which MultiBranch pipeline working on.
+     */
+    public void setScmSourceBranchName(String scmSourceBranchName) {
+        this.scmSourceBranchName = scmSourceBranchName;
+    }
+
+    /**
+     * Default getter method
+     * @return @this.scmSourceBranchName
+     */
+    public String getScmSourceBranchName() {
+        return scmSourceBranchName;
     }
 
 }

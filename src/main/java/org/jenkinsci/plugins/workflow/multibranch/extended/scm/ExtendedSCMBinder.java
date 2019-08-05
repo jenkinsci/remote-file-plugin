@@ -1,11 +1,19 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
+import hudson.AbortException;
+import hudson.EnvVars;
 import hudson.Extension;
-import hudson.model.Action;
-import hudson.model.Descriptor;
-import hudson.model.DescriptorVisibilityFilter;
-import hudson.model.TaskListener;
+import hudson.FilePath;
+import hudson.model.*;
+import hudson.plugins.git.Branch;
+import hudson.plugins.git.BranchSpec;
+import hudson.plugins.git.GitSCM;
+import hudson.plugins.git.util.BuildChooserContext;
+import hudson.plugins.git.util.BuildData;
 import hudson.scm.SCM;
+import hudson.scm.SCMDescriptor;
+import jenkins.model.Jenkins;
+import org.jenkinsci.plugins.gitclient.GitClient;
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinitionDescriptor;
@@ -15,16 +23,23 @@ import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.multibranch.*;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class consist of necessary methods for binding another Jenkins file from another repository to Multibranch pipeline.
+ *
  * @author Aytunc BEKEN, aytuncbeken.ab@gmail.com
  */
 public class ExtendedSCMBinder extends FlowDefinition {
 
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
+    private String scmSourceBranchName;
+    private Boolean matchBranches;
+    private String fallbackBranch = "master";
+    private String matchBranchFailMessage;
+    private String matchBranchFallbackMessage;
+
 
     /**
      * Constructor for the class.
@@ -32,23 +47,41 @@ public class ExtendedSCMBinder extends FlowDefinition {
      * @param remoteJenkinsFile    Path of the remote jenkins file from Remote Jenkins File Plugin descriptor
      * @param remoteJenkinsFileSCM SCM definition from Remote Jenkins File Plugin descriptor
      */
-    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM) {
+    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, Boolean matchBranches) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
+        this.matchBranches = matchBranches;
+        this.scmSourceBranchName = scmSourceBranchName;
+        this.matchBranchFailMessage = "Failed to checkout for " + this.scmSourceBranchName + " branch for Jenkins File.";
+        this.matchBranchFallbackMessage = "Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ";
     }
 
     /**
      * Overwrites create method of FlowDefiniton class. This methods sets the defined Jenkins file and defined SCM on
      * Remote Jenkins Plugin to Pipeline job which will be created by MultiBranch Pipeline.
      *
-     * @param handle @{@link FlowExecutionOwner}
+     * @param handle   @{@link FlowExecutionOwner}
      * @param listener @{@link TaskListener}
-     * @param actions List of @{@link Action}
+     * @param actions  List of @{@link Action}
      * @return @{@link FlowExecution}
      * @throws Exception
      */
     @Override
     public FlowExecution create(FlowExecutionOwner handle, TaskListener listener, List<? extends Action> actions) throws Exception {
+        if (this.matchBranches && this.remoteJenkinsFileSCM instanceof GitSCM) {
+            try {
+                return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
+            } catch (Exception ex) {
+                if (ex instanceof AbortException) {
+                    // This can be reason of there is no branch named in the Remote File Repository
+                    // Fallback to master branch
+                    listener.getLogger().println(this.matchBranchFailMessage);
+                    listener.getLogger().println(this.matchBranchFallbackMessage);
+                    return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(fallbackBranch), this.remoteJenkinsFile).create(handle, listener, actions);
+                }
+            }
+        }
+        // If matchBranches not checked or SCM is not GitSCM, return with Remote File SCM as defined in Jenkins
         return new CpsScmFlowDefinition(this.remoteJenkinsFileSCM, this.remoteJenkinsFile).create(handle, listener, actions);
     }
 
@@ -66,6 +99,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     /**
      * This method hides Remote Jenkins Plugin from other Pipeline Jobs and make visible to only MultiBranch Pipeline
+     *
      * @see DescriptorVisibilityFilter
      */
     @Extension
@@ -80,4 +114,15 @@ public class ExtendedSCMBinder extends FlowDefinition {
         }
 
     }
+
+    /**
+     * Genereate new @{@link SCM} object with a given branch name from defined Remote Jenkins File SCM definition
+     * @param branchName Branch name to use in new @{@link SCM}
+     * @return new @{@link SCM} defined with new branch
+     */
+    private GitSCM generateSCMWithNewBranch(String branchName) {
+        GitSCM configuredGitSCM = (GitSCM) this.remoteJenkinsFileSCM;
+        return new GitSCM(configuredGitSCM.getUserRemoteConfigs(), Collections.singletonList(new BranchSpec(branchName)), configuredGitSCM.isDoGenerateSubmoduleConfigurations(), configuredGitSCM.getSubmoduleCfg(), configuredGitSCM.getBrowser(), configuredGitSCM.getGitTool(), configuredGitSCM.getExtensions());
+    }
+
 }
