@@ -75,7 +75,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localFile, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, Boolean matchBranches) {
+    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localFile, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
         this.localFile = localFile;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;

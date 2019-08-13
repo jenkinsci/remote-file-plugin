@@ -62,7 +62,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, Boolean matchBranches) {
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
