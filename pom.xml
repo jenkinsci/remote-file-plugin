@@ -37,7 +37,7 @@ THE SOFTWARE.
     <name>Remote File Plugin</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
     </description>
-    <url>https://wiki.jenkins.io/display/JENKINS/Remote+File+Plugin</url>
+    <url>https://github.com/jenkinsci/remote-file-plugin</url>
     <licenses>
         <license>
             <name>MIT License</name>
