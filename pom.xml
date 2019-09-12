@@ -32,7 +32,7 @@ THE SOFTWARE.
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>remote-file</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>Remote File Plugin</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
@@ -55,7 +55,7 @@ THE SOFTWARE.
         <connection>scm:git:ssh://github.com/jenkinsci/remote-file-plugin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/remote-file-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/remote-file-plugin</url>
-      <tag>remote-file-1.4</tag>
+      <tag>HEAD</tag>
   </scm>
     <properties>
         <java.level>8</java.level>
