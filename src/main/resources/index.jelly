@@ -24,5 +24,5 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <div>
-  Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projeccts.
+  Enables to define external Jenkinsfile from another repository for Multibranch Pipeline Projects.
 </div>
