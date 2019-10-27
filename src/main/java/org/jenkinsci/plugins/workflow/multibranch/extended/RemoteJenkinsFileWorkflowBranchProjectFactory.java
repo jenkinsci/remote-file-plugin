@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.ExtendedSCMBinder;
+import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalFileSCMSourceCriteria;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.SCMFilter;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -24,6 +25,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
 
 
     private static final String defaultJenkinsFile = "Jenkinsfile";
+    private String localFile;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
@@ -58,11 +60,13 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     /**
      * Jenkins @{@link DataBoundConstructor}
      *
+     * @param localFile            path of an arbitrary local file which must be present for the project to be recognised
      * @param remoteJenkinsFile    path of the Jenkinsfile
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
+        this.localFile = localFile;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
@@ -86,11 +90,13 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Override
     protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
-        return (SCMSourceCriteria) (probe, taskListener) -> {
-            //Set SCM Source Branch name to check later if matchBranches flag is true
+        return (probe, taskListener) -> {
+            // Don't match if remote SCM of remoteFileName is not configured
+            if (this.remoteJenkinsFileSCM == null || StringUtils.isEmpty(this.remoteJenkinsFile)) {
+                return false;
+            }
             this.setScmSourceBranchName(probe.name());
-            taskListener.getLogger().println("Ignoring Jenkins file checking in Source Code SCM, Jenkins file will be provided by Remote Jenkins File Plugin");
-            return true;
+            return LocalFileSCMSourceCriteria.matches(this.localFile, probe, taskListener);
         };
     }
 
@@ -123,6 +129,14 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     public SCM getRemoteJenkinsFileSCM() {
         return remoteJenkinsFileSCM;
+    }
+
+    /**
+     * Default getter method
+     * @return @this.localFile
+     */
+    public String getLocalFile() {
+        return localFile;
     }
 
 
