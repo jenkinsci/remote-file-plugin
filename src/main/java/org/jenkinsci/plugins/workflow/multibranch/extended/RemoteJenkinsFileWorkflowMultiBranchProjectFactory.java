@@ -4,13 +4,13 @@ import hudson.Extension;
 import hudson.scm.SCM;
 import jenkins.branch.MultiBranchProjectFactory;
 import jenkins.branch.MultiBranchProjectFactoryDescriptor;
-import jenkins.scm.api.SCMProbeStat;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceCriteria;
 import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.multibranch.AbstractWorkflowMultiBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
+import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalFileSCMSourceCriteria;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -91,34 +91,12 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     @Override
     protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
         return (probe, taskListener) -> {
-
-            // Not match if remote SCM of remoteFileName is not configured
+            // Don't match if remote SCM of remoteFileName is not configured
             if (this.remoteJenkinsFileSCM == null || StringUtils.isEmpty(this.remoteJenkinsFile)) {
                 return false;
             }
             this.setScmSourceBranchName(probe.name());
-            // Match all if local file is not specified
-            if (StringUtils.isEmpty(this.localFile)) {
-                taskListener.getLogger().println("Not local file defined, skipping checking in Source Code SCM, Jenkins file will be provided by Remote Jenkins File Plugin");
-                return true;
-            }
-
-            SCMProbeStat stat = probe.stat(this.localFile);
-            switch (stat.getType()) {
-                case NONEXISTENT:
-                    if (stat.getAlternativePath() != null) {
-                        taskListener.getLogger().format("      ‘%s’ not found (but found ‘%s’, search is case sensitive)%n", this.localFile, stat.getAlternativePath());
-                    } else {
-                        taskListener.getLogger().format("      ‘%s’ not found%n", this.localFile);
-                    }
-                    return false;
-                case DIRECTORY:
-                    taskListener.getLogger().format("      ‘%s’ found but is a directory not a file%n", this.localFile);
-                    return false;
-                default:
-                    taskListener.getLogger().format("      ‘%s’ found%n", this.localFile);
-                    return true;
-            }
+            return LocalFileSCMSourceCriteria.matches(this.localFile, probe, taskListener);
         };
     }
 
@@ -166,7 +144,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     @Override
     protected void customize(WorkflowMultiBranchProject project) {
-        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.getMatchBranches());
+        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localFile, this.remoteJenkinsFileSCM, this.getMatchBranches());
         project.setProjectFactory(projectFactory);
     }
 

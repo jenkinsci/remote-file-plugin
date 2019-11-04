@@ -12,7 +12,7 @@ in the repository alongside with the source code.
 But when it comes to adding new definitions/stages/steps or maintaining
 the Jenkins Pipeline Script for other reasons, you need to make all the changes within all branches or make changes in master branch 
 and wait for other branches getting the update. 
-For eliminating this you can used [Jenkins Shared Library](https://jenkins.io/doc/book/pipeline/shared-libraries/).
+For eliminating this you can use [Jenkins Shared Library](https://jenkins.io/doc/book/pipeline/shared-libraries/).
 However when you are in an large-scaled/enterprise environments with hundreds/thousands of developers with lots of repositories,
 you need to somehow protect the content/stability of the Jenkins Pipeline Scripts to avoid failures. 
 
@@ -65,6 +65,16 @@ You can see screenshot of example definition.
 ![](images/multibranch-pipeline-definition-2.png)
 
 ![](images/multibranch-pipeline-definition-3.png)
+
+### Local File Project Recogniser
+
+When using Remote File Plugin, you might want to build only repositories and branches which contain a certain file.
+In this case, you may specify a Local File in the Plugin SCM Definition. This way, Jenkins will create projects only
+for repositories and branches containing the file you specified.
+
+In the example below, only repositories and branches containing a file named `pom.xml` would be recognised:
+
+![](images/multibranch-pipeline-local-file-1.png)
 
 ### Note
 

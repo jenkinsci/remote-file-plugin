@@ -24,6 +24,9 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:entry title="${%Local File}" field="localFile">
+        <f:textbox default=""/>
+    </f:entry>
     <f:entry title="${%Script Path}" field="remoteJenkinsFile">
         <f:textbox default="Jenkinsfile"/>
     </f:entry>
