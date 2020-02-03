@@ -30,6 +30,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
     private String scmSourceBranchName;
+    private String fallbackBranch;
 
     private RemoteJenkinsFileWorkflowMultiBranchProjectFactory() {
     }
@@ -144,7 +145,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     @Override
     protected void customize(WorkflowMultiBranchProject project) {
-        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localFile, this.remoteJenkinsFileSCM, this.getMatchBranches());
+        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localFile, this.remoteJenkinsFileSCM, this.getMatchBranches(), this.fallbackBranch);
         project.setProjectFactory(projectFactory);
     }
 
@@ -166,7 +167,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Set  @this.scmSourceBranchName to be used in new scm definition with new branch name
+     * Set  @this.scmSourceBranchName to be used in new scm definition with new branch nameLocal
      * @param scmSourceBranchName Current branch name which MultiBranch pipeline working on.
      */
     public void setScmSourceBranchName(String scmSourceBranchName) {
@@ -181,4 +182,12 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
         return scmSourceBranchName;
     }
 
+    public String getFallbackBranch() {
+        return fallbackBranch;
+    }
+
+    @DataBoundSetter
+    public void setFallbackBranch(String fallbackBranch) {
+        this.fallbackBranch = fallbackBranch;
+    }
 }

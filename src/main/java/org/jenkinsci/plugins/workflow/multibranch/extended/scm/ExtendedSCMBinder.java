@@ -36,7 +36,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
     private SCM remoteJenkinsFileSCM;
     private String scmSourceBranchName;
     private boolean matchBranches;
-    private String fallbackBranch = "master";
+    private String fallbackBranch;
     private String matchBranchFailMessage;
     private String matchBranchFallbackMessage;
 
@@ -47,11 +47,12 @@ public class ExtendedSCMBinder extends FlowDefinition {
      * @param remoteJenkinsFile    Path of the remote jenkins file from Remote Jenkins File Plugin descriptor
      * @param remoteJenkinsFileSCM SCM definition from Remote Jenkins File Plugin descriptor
      */
-    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches) {
+    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches, String fallbackBranch) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
         this.scmSourceBranchName = scmSourceBranchName;
+        this.fallbackBranch = fallbackBranch;
         this.matchBranchFailMessage = "Failed to checkout for " + this.scmSourceBranchName + " branch for Jenkins File.";
         this.matchBranchFallbackMessage = "Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ";
     }

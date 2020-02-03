@@ -6,6 +6,7 @@ import hudson.slaves.DumbSlave;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
+import org.apache.xpath.operations.Bool;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -13,6 +14,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.springframework.core.annotation.Order;
 
 import java.io.IOException;
 
@@ -33,8 +35,9 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     private GitSCM remoteJenkinsFileRepoSCM;
     private String testFileInitalContent = "Initial Content of Test File";
     private String jenkinsFile = "Jenkinsfile";
-    private String[] scmBranches = {"master", "feature"};
-    private String fallBackBranch = "master";
+    private String[] scmBranches = {"master", "feature","hotfix"};
+    private String defaultFallBackBranch = "master";
+    private String testFallbackBranch = "fallback";
     private String projectName = "RemoteJenkinsFileProject";
     private String pipelineScript = "pipeline { agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
     private String pipelineScriptWithSlave = "pipeline { agent { label '%s' } ; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
@@ -51,7 +54,24 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         // Init Remote Jenkins File Repo with test Jenkinsfile
         this.initRemoteJenkinsFileRepoWithPipelineScript();
         // Create And Test
-        this.createProjectAndTest(false);
+        this.createProjectAndTest(false,this.defaultFallBackBranch);
+    }
+
+    @Test
+    public void testRemoteJenkinsFileMatchBranchesTrueWithDifferentFallbackBranch() throws Exception {
+        // Init Remote Jenkins File Repo with test Jenkinsfile
+        this.initRemoteJenkinsFileRepoWithPipelineScriptWithFallbackBranch();
+        // Create And Test
+        this.createProjectAndTest(true,this.testFallbackBranch);
+    }
+
+    @Test
+    public void testRemoteJenkinsFileMatchBranchesTrueWithDumpSlaveWithDifferentFallbackBranch() throws Exception {
+        DumbSlave dumbSlave = this.jenkins.createOnlineSlave(Label.parseExpression("slave"));
+        // Init Remote Jenkins File Repo with test Jenkinsfile
+        this.initRemoteJenkinsFileRepoWithPipelineScriptWithSlaveWithFallbackBranch(dumbSlave);
+        // Create And Test
+        this.createProjectAndTest(true,this.testFallbackBranch);
     }
 
     @Test
@@ -60,7 +80,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         // Init Remote Jenkins file with Slave
         this.initRemoteJenkinsFileRepoWithPipelineScriptWithSlave(dumbSlave);
         // Create And Test
-        this.createProjectAndTest(false);
+        this.createProjectAndTest(false,this.defaultFallBackBranch);
     }
 
     @Test
@@ -68,7 +88,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         // Init Remote Jenkins File Repo with test Jenkinsfile
         this.initRemoteJenkinsFileRepoWithPipelineScript();
         // Create And Test
-        this.createProjectAndTest(true);
+        this.createProjectAndTest(true,this.defaultFallBackBranch);
     }
 
     @Test
@@ -76,7 +96,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         // Init Remote Jenkins File Repo with test Jenkinsfile
         this.initRemoteJenkinsFileRepoWithPipelineScript();
         // Create And Test
-        this.createProjectAndTest(false, true);
+        this.createProjectAndTest(false, true,this.defaultFallBackBranch);
     }
 
     @Test
@@ -85,14 +105,14 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         // Init Remote Jenkins file with Slave
         this.initRemoteJenkinsFileRepoWithPipelineScriptWithSlave(dumbSlave);
         // Create And Test
-        this.createProjectAndTest(true);
+        this.createProjectAndTest(true, this.defaultFallBackBranch);
     }
 
     private void initSourceCodeRepo() throws Exception {
         this.sourceCodeRepo.init();
         for (String branchName : scmBranches) {
             if (!branchName.equals("master")) {
-                this.sourceCodeRepo.git("checkout", "-b", branchName);
+                this.sourceCodeRepo.git("checkout", "-b", branchName,"master");
                 this.sourceCodeRepo.git("rm", this.localFile);
             } else {
                 this.sourceCodeRepo.write(this.localFile, this.testFileInitalContent + branchName);
@@ -104,7 +124,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         this.sourceCodeRepoSCMSource = new GitSCMSource(null, this.sourceCodeRepo.toString(), "", "*", "", false);
     }
 
-    private void initRemoteJenkinsFileRepo(DumbSlave dumbSlave) throws Exception {
+    private void initRemoteJenkinsFileRepo(DumbSlave dumbSlave, Boolean createFallbackBranchForJenkinsFile) throws Exception {
         this.remoteJenkinsFileRepo.init();
         if (dumbSlave == null)
             this.remoteJenkinsFileRepo.write(this.jenkinsFile, this.pipelineScript);
@@ -114,21 +134,34 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         }
         this.remoteJenkinsFileRepo.git("add", this.jenkinsFile);
         this.remoteJenkinsFileRepo.git("commit", "--all", "--message=RemoteJenkinsFileRepoTest");
+        if( createFallbackBranchForJenkinsFile) {
+            this.remoteJenkinsFileRepo.git("checkout", "-b", this.testFallbackBranch,"master");
+            this.remoteJenkinsFileRepo.git("branch", "-D", "master");
+        }
         this.remoteJenkinsFileRepoSCM = new GitSCM(remoteJenkinsFileRepo.toString());
     }
 
     private void initRemoteJenkinsFileRepoWithPipelineScript() throws Exception {
-        this.initRemoteJenkinsFileRepo(null);
+        this.initRemoteJenkinsFileRepo(null,false);
     }
 
     private void initRemoteJenkinsFileRepoWithPipelineScriptWithSlave(DumbSlave dumbSlave) throws Exception {
-        this.initRemoteJenkinsFileRepo(dumbSlave);
+        this.initRemoteJenkinsFileRepo(dumbSlave,false);
     }
 
-    private WorkflowMultiBranchProject createProjectWithRemoteJenkinsFile(boolean matchBranches, String localFile) throws IOException {
+    private void initRemoteJenkinsFileRepoWithPipelineScriptWithSlaveWithFallbackBranch(DumbSlave dumbSlave) throws Exception {
+        this.initRemoteJenkinsFileRepo(dumbSlave,true);
+    }
+
+    private void initRemoteJenkinsFileRepoWithPipelineScriptWithFallbackBranch() throws Exception {
+        this.initRemoteJenkinsFileRepo(null,true);
+    }
+
+
+    private WorkflowMultiBranchProject createProjectWithRemoteJenkinsFile(boolean matchBranches, String localFile, String fallBackBranch) throws IOException {
         WorkflowMultiBranchProject workflowMultiBranchProject = this.jenkins.createProject(WorkflowMultiBranchProject.class, this.projectName);
         workflowMultiBranchProject.getSourcesList().add(new BranchSource(this.sourceCodeRepoSCMSource));
-        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, localFile, this.remoteJenkinsFileRepoSCM, matchBranches);
+        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, localFile, this.remoteJenkinsFileRepoSCM, matchBranches, fallBackBranch);
         workflowMultiBranchProject.setProjectFactory(remoteJenkinsFileWorkflowBranchProjectFactory);
         return workflowMultiBranchProject;
     }
@@ -139,7 +172,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         assertEquals(expectedBranches, workflowMultiBranchProject.getItems().size());
     }
 
-    private void checkBranchJobsAndLogs(WorkflowMultiBranchProject workflowMultiBranchProject, boolean checkForMatchBranch, boolean isLocalFileDefined) throws Exception {
+    private void checkBranchJobsAndLogs(WorkflowMultiBranchProject workflowMultiBranchProject, boolean checkForMatchBranch, boolean isLocalFileDefined, String fallBackBranch) throws Exception {
         // Check build num and logs for created Branch Jobs
         for (String branchName : this.scmBranches) {
             WorkflowJob branchJob = workflowMultiBranchProject.getJob(branchName);
@@ -148,9 +181,9 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
                 lastBuild.writeWholeLogTo(System.out);
                 assertEquals(1, lastBuild.getNumber());
                 jenkins.assertLogContains(this.testFileInitalContent + branchName, lastBuild);
-                if (checkForMatchBranch && branchName != this.fallBackBranch) {
+                if (checkForMatchBranch && branchName != fallBackBranch) {
                     jenkins.assertLogContains("Failed to checkout", lastBuild);
-                    jenkins.assertLogContains("Try to checkout", lastBuild);
+                    jenkins.assertLogContains("Try to checkout " + fallBackBranch, lastBuild);
                 }
             } else {
                 assertNull(branchJob);
@@ -158,7 +191,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         }
     }
 
-    private void createProjectAndTest(boolean matchBranches, boolean isLocalFileDefined) throws Exception {
+    private void createProjectAndTest(boolean matchBranches, boolean isLocalFileDefined, String fallbackBranch) throws Exception {
         int expectedBranches;
         String localFile;
         if(isLocalFileDefined) {
@@ -171,15 +204,15 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         }
 
         // Create project with Remote Jenkins File Plugin
-        WorkflowMultiBranchProject workflowMultiBranchProject = this.createProjectWithRemoteJenkinsFile(matchBranches, localFile);
+        WorkflowMultiBranchProject workflowMultiBranchProject = this.createProjectWithRemoteJenkinsFile(matchBranches, localFile, fallbackBranch);
         // Index MultiBranchProject
         this.indexMultiBranchPipeline(workflowMultiBranchProject, expectedBranches);
         // Run and check Branch Jobs
-        this.checkBranchJobsAndLogs(workflowMultiBranchProject, matchBranches, isLocalFileDefined);
+        this.checkBranchJobsAndLogs(workflowMultiBranchProject, matchBranches, isLocalFileDefined, fallbackBranch);
     }
 
-    private void createProjectAndTest(boolean matchBranches) throws Exception {
-        this.createProjectAndTest(matchBranches, false);
+    private void createProjectAndTest(boolean matchBranches, String fallbackBranch) throws Exception {
+        this.createProjectAndTest(matchBranches, false, fallbackBranch);
     }
 
 
