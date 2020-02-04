@@ -30,6 +30,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
     private String scmSourceBranchName;
+    private String fallbackBranch;
 
 
     /**
@@ -65,11 +66,12 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localFile, SCM remoteJenkinsFileSCM, boolean matchBranches, String fallbackBranch) {
         this.localFile = localFile;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
+        this.fallbackBranch = fallbackBranch;
     }
 
     /**
@@ -79,7 +81,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Override
     protected FlowDefinition createDefinition() {
-        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches);
+        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches, this.fallbackBranch);
     }
 
     /**
@@ -171,5 +173,14 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     public String getScmSourceBranchName() {
         return scmSourceBranchName;
+    }
+
+    public String getFallbackBranch() {
+        return fallbackBranch;
+    }
+
+    @DataBoundSetter
+    public void setFallbackBranch(String fallbackBranch) {
+        this.fallbackBranch = fallbackBranch;
     }
 }
