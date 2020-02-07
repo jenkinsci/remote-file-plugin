@@ -89,7 +89,7 @@ Thanks
 =================
 If you feel your self generous today, you can buy me a coffee : )
 <br>
-Or you can start the project.
+Or you can star the project.
 Thanks.
 <br>
 <br>
