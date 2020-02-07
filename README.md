@@ -85,7 +85,16 @@ For filtering branches in the project, you can use "Filter by name" feature.
 1. Login [Jenkins Jira](https://issues.jenkins-ci.org/secure/Dashboard.jspa) 
 2. Create issue with component name "multibranch-action-triggers-plugin"
 
-### Humble Request
-I will be glad if you could star this project. 
-
+Thanks
+=================
+If you feel your self generous today, you can buy me a coffee : )
+<br>
+Or you can start the project.
 Thanks.
+<br>
+<br>
+<div align="center">
+    <a href="https://www.buymeacoffee.com/STiAsoy" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/default-black.png" width="150px" alt="Buy Me A Coffee" style="width: 150px !important">
+    </a>
+</div>
