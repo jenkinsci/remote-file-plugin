@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.ExtendedSCMBinder;
-import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalFileSCMSourceCriteria;
+import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalMarkerSCMSourceCriteria;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.SCMFilter;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -98,7 +98,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
                 return false;
             }
             this.setScmSourceBranchName(probe.name());
-            return LocalFileSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
+            return LocalMarkerSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
         };
     }
 
@@ -135,7 +135,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
 
     /**
      * Default getter method
-     * @return @this.localFile
+     * @return @this.localMarker
      */
     public String getLocalMarker() {
         return localMarker;

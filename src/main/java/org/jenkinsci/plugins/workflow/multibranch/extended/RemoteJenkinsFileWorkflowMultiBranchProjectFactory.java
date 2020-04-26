@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.multibranch.AbstractWorkflowMultiBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
-import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalFileSCMSourceCriteria;
+import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalMarkerSCMSourceCriteria;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -62,11 +62,11 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     /**
      * Jenkins @{@link DataBoundSetter}
      *
-     * @param localFileForRecognize file to search in local repository to activate build ( can be null )
+     * @param localMarkerForRecognize file to search in local repository to activate build ( can be null )
      */
     @DataBoundSetter
-    public void setLocalFileForReconize(String localFileForRecognize) {
-        this.localMarker = localFileForRecognize;
+    public void setLocalMarkerForReconize(String localMarkerForRecognize) {
+        this.localMarker = localMarkerForRecognize;
     }
 
     /**
@@ -97,7 +97,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
                 return false;
             }
             this.setScmSourceBranchName(probe.name());
-            return LocalFileSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
+            return LocalMarkerSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
         };
     }
 
@@ -119,7 +119,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.localFile
+     * @return @this.localMarker
      */
     public String getLocalMarker() {
         return localMarker;
