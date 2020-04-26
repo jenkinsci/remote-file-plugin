@@ -25,7 +25,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
 
 
     private static final String defaultJenkinsFile = "Jenkinsfile";
-    private String localFile;
+    private String localMarker;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
@@ -61,13 +61,13 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     /**
      * Jenkins @{@link DataBoundConstructor}
      *
-     * @param localFile            path of an arbitrary local file which must be present for the project to be recognised
+     * @param localMarker            path of an arbitrary local file which must be present for the project to be recognised
      * @param remoteJenkinsFile    path of the Jenkinsfile
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localFile, SCM remoteJenkinsFileSCM, boolean matchBranches, String fallbackBranch) {
-        this.localFile = localFile;
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localMarker, SCM remoteJenkinsFileSCM, boolean matchBranches, String fallbackBranch) {
+        this.localMarker = localMarker;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
@@ -98,7 +98,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
                 return false;
             }
             this.setScmSourceBranchName(probe.name());
-            return LocalFileSCMSourceCriteria.matches(this.localFile, probe, taskListener);
+            return LocalFileSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
         };
     }
 
@@ -137,8 +137,8 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      * Default getter method
      * @return @this.localFile
      */
-    public String getLocalFile() {
-        return localFile;
+    public String getLocalMarker() {
+        return localMarker;
     }
 
 

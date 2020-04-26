@@ -33,8 +33,8 @@ public class LocalFileSCMSourceCriteria {
                 }
                 return false;
             case DIRECTORY:
-                taskListener.getLogger().format("      ‘%s’ found but is a directory not a file%n", localFile);
-                return false;
+                taskListener.getLogger().format("      ‘%s’ found directory%n", localFile);
+                return true;
             default:
                 taskListener.getLogger().format("      ‘%s’ found%n", localFile);
                 return true;

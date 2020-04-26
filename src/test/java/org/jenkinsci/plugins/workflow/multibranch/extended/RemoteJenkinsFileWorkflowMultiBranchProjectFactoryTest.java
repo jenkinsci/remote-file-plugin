@@ -202,4 +202,57 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
         indexing.writeWholeLogTo(System.out);
         System.out.println("---%<--- ");
     }
+
+    @Test
+    public void testRemoteJenkinsFileWithLocalDirectoryFiltering() throws Exception {
+
+        File clones = tmp.newFolder();
+        File remoteClones = tmp.newFolder();
+
+        // Add script repository
+        sampleRepo1.init();
+        sampleRepo1.write(SCRIPT, "echo 'ran one'");
+        sampleRepo1.git("add", SCRIPT);
+        sampleRepo1.git("commit", "--all", "--message=first_commit");
+        sampleRepo1.git("clone", ".", new File(remoteClones, "script-one").getAbsolutePath());
+
+        // Add source code repository
+        sampleRepo2.init();
+        sampleRepo2.write("source.txt", "source code");
+        sampleRepo2.git("add", "source.txt");
+        sampleRepo2.git("commit", "--all", "--message=first_commit");
+        sampleRepo2.git("clone", ".", new File(clones, "source-one").getAbsolutePath());
+
+        // Add second source code repository
+        sampleRepo3.init();
+        sampleRepo3.write("pomdir/pom.xml", "<pom></pom>");
+        sampleRepo3.git("add", "pomdir/pom.xml");
+        sampleRepo3.git("commit", "--all", "--message=first_commit");
+        sampleRepo3.git("clone", ".", new File(clones, "source-two").getAbsolutePath());
+
+        r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+        r.jenkins.setAuthorizationStrategy(new FullControlOnceLoggedInAuthorizationStrategy());
+        OrganizationFolder top = r.jenkins.createProject(OrganizationFolder.class, "top");
+        top.getNavigators().add(new GitDirectorySCMNavigator(clones.getAbsolutePath()));
+        top.getProjectFactories().clear();
+        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory("pomdir", SCRIPT,  new GitSCM(sampleRepo1.toString()), false));
+
+        // Make sure we created one multi-branch projects:
+        top.scheduleBuild2(0).getFuture().get();
+        top.getComputation().writeWholeLogTo(System.out);
+        assertEquals(1, top.getItems().size());
+        MultiBranchProject<?, ?> one = top.getItem("source-two");
+        assertThat(one, is(instanceOf(WorkflowMultiBranchProject.class)));
+        // Check that it has Git configured:
+        List<SCMSource> sources = one.getSCMSources();
+        assertEquals(1, sources.size());
+        assertEquals("GitSCMSource", sources.get(0).getClass().getSimpleName());
+
+        // Check that the master branch project works:
+        r.waitUntilNoActivity();
+        WorkflowJob p = findBranchProject((WorkflowMultiBranchProject) one, "master");
+        WorkflowRun b1 = p.getLastBuild();
+        assertEquals(1, b1.getNumber());
+        r.assertLogContains("ran one", b1);
+    }
 }
