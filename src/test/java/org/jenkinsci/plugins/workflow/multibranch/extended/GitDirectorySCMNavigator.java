@@ -5,21 +5,22 @@ import hudson.Extension;
 import hudson.Launcher;
 import hudson.Proc;
 import hudson.model.TaskListener;
+import jenkins.plugins.git.GitSCMSource;
+import jenkins.scm.api.SCMNavigator;
+import jenkins.scm.api.SCMNavigatorDescriptor;
+import jenkins.scm.api.SCMSourceObserver;
+import org.apache.commons.io.IOUtils;
+import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.DataBoundConstructor;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import jenkins.plugins.git.GitSCMSource;
-import jenkins.scm.api.SCMNavigator;
-import jenkins.scm.api.SCMNavigatorDescriptor;
-import jenkins.scm.api.SCMSourceObserver;
-import org.apache.commons.io.IOUtils;
-import static org.junit.Assert.assertFalse;
 
-import org.jenkinsci.Symbol;
-import org.kohsuke.stapler.DataBoundConstructor;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Sample provider which scans a directory for Git checkouts.

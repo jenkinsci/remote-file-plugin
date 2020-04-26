@@ -1,29 +1,25 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
 import hudson.AbortException;
-import hudson.EnvVars;
 import hudson.Extension;
-import hudson.FilePath;
-import hudson.model.*;
-import hudson.plugins.git.Branch;
+import hudson.model.Action;
+import hudson.model.Descriptor;
+import hudson.model.DescriptorVisibilityFilter;
+import hudson.model.TaskListener;
 import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
-import hudson.plugins.git.util.BuildChooserContext;
-import hudson.plugins.git.util.BuildData;
 import hudson.scm.SCM;
-import hudson.scm.SCMDescriptor;
-import jenkins.model.Jenkins;
-import org.jenkinsci.plugins.gitclient.GitClient;
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinitionDescriptor;
 import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 import org.jenkinsci.plugins.workflow.flow.FlowExecutionOwner;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.jenkinsci.plugins.workflow.multibranch.*;
+import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class consist of necessary methods for binding another Jenkins file from another repository to Multibranch pipeline.
