@@ -66,11 +66,11 @@ You can see screenshot of example definition.
 
 ![](images/multibranch-pipeline-definition-3.png)
 
-### Local File Project Recogniser
+### Local Marker Project Recogniser
 
-When using Remote File Plugin, you might want to build only repositories and branches which contain a certain file.
-In this case, you may specify a Local File in the Plugin SCM Definition. This way, Jenkins will create projects only
-for repositories and branches containing the file you specified.
+When using Remote File Plugin, you might want to build only repositories and branches which contain a certain file or directory.
+In this case, you may specify a Local Marker in the Plugin SCM Definition. This way, Jenkins will create projects only
+for repositories and branches containing the file or directory you specified.
 
 In the example below, only repositories and branches containing a file named `pom.xml` would be recognised:
 
@@ -84,17 +84,3 @@ For filtering branches in the project, you can use "Filter by name" feature.
 
 1. Login [Jenkins Jira](https://issues.jenkins-ci.org/secure/Dashboard.jspa) 
 2. Create issue with component name "multibranch-action-triggers-plugin"
-
-Thanks
-=================
-If you feel your self generous today, you can buy me a coffee : )
-<br>
-Or you can star the project.
-Thanks.
-<br>
-<br>
-<div align="center">
-    <a href="https://www.buymeacoffee.com/STiAsoy" target="_blank">
-        <img src="https://cdn.buymeacoffee.com/buttons/default-black.png" width="150px" alt="Buy Me A Coffee" style="width: 150px !important">
-    </a>
-</div>

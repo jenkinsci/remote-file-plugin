@@ -6,7 +6,6 @@ import hudson.slaves.DumbSlave;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
-import org.apache.xpath.operations.Bool;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -14,7 +13,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.springframework.core.annotation.Order;
 
 import java.io.IOException;
 
@@ -53,7 +51,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     public void testRemoteJenkinsFile() throws Exception {
         // Init Remote Jenkins File Repo with test Jenkinsfile
         this.initRemoteJenkinsFileRepoWithPipelineScript();
-        // Create And Test
+        // Create And TestsourceCodeRepo
         this.createProjectAndTest(false,this.defaultFallBackBranch);
     }
 
@@ -93,6 +91,14 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
 
     @Test
     public void testRemoteJenkinsFileWithLocalFile() throws Exception {
+        // Init Remote Jenkins File Repo with test Jenkinsfile
+        this.initRemoteJenkinsFileRepoWithPipelineScript();
+        // Create And Test
+        this.createProjectAndTest(false, true,this.defaultFallBackBranch);
+    }
+
+    @Test
+    public void testRemoteJenkinsFileWithLocalDirectory() throws Exception {
         // Init Remote Jenkins File Repo with test Jenkinsfile
         this.initRemoteJenkinsFileRepoWithPipelineScript();
         // Create And Test

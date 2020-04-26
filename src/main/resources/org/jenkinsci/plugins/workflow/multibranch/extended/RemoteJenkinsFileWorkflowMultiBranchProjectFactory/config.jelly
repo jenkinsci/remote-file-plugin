@@ -2,7 +2,7 @@
 <!--
 The MIT License
 
-Copyright 2017 CloudBees, Inc.
+Copyright 2019 Jenkins Community
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:entry title="${%Local File}" field="localFile">
+    <f:entry title="${%Local Marker}" field="localMarker">
         <f:textbox default=""/>
     </f:entry>
     <f:entry title="${%Script Path}" field="remoteJenkinsFile">

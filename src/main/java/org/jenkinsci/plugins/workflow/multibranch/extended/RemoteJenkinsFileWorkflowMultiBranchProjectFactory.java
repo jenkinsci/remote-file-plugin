@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.multibranch.AbstractWorkflowMultiBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
-import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalFileSCMSourceCriteria;
+import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalMarkerSCMSourceCriteria;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -25,7 +25,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     private static final String DEFAULT_JENKINS_FILE = "Jenkinsfile";
 
-    private String localFile;
+    private String localMarker;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
@@ -62,11 +62,11 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     /**
      * Jenkins @{@link DataBoundSetter}
      *
-     * @param localFileForRecognize file to search in local repository to activate build ( can be null )
+     * @param localMarkerForRecognize file to search in local repository to activate build ( can be null )
      */
     @DataBoundSetter
-    public void setLocalFileForReconize(String localFileForRecognize) {
-        this.localFile = localFileForRecognize;
+    public void setLocalMarkerForReconize(String localMarkerForRecognize) {
+        this.localMarker = localMarkerForRecognize;
     }
 
     /**
@@ -76,8 +76,8 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localFile, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
-        this.localFile = localFile;
+    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localMarker, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
+        this.localMarker = localMarker;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
@@ -97,7 +97,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
                 return false;
             }
             this.setScmSourceBranchName(probe.name());
-            return LocalFileSCMSourceCriteria.matches(this.localFile, probe, taskListener);
+            return LocalMarkerSCMSourceCriteria.matches(this.localMarker, probe, taskListener);
         };
     }
 
@@ -119,10 +119,10 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.localFile
+     * @return @this.localMarker
      */
-    public String getLocalFile() {
-        return localFile;
+    public String getLocalMarker() {
+        return localMarker;
     }
 
     /**
@@ -145,7 +145,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     @Override
     protected void customize(WorkflowMultiBranchProject project) {
-        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localFile, this.remoteJenkinsFileSCM, this.getMatchBranches(), this.fallbackBranch);
+        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localMarker, this.remoteJenkinsFileSCM, this.getMatchBranches(), this.fallbackBranch);
         project.setProjectFactory(projectFactory);
     }
 
