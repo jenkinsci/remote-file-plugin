@@ -84,7 +84,7 @@ Reporting Issues
 ======
 Please create issue in this repository.
 
-[Create Issue](https://github.com/jenkinsci/pipeline-as-yaml-plugin/issues/new/choose)
+[Create Issue](https://github.com/jenkinsci/remote-file-plugin/issues/new/choose)
 
 Thank You!
 =================
