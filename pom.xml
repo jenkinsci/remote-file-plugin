@@ -34,7 +34,7 @@ THE SOFTWARE.
     <artifactId>remote-file</artifactId>
     <version>1.11-SNAPSHOT</version>
     <packaging>hpi</packaging>
-    <name>Remote File Plugin</name>
+    <name>Remote Jenkinsfile Provider</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
     </description>
     <url>https://github.com/jenkinsci/remote-file-plugin</url>
