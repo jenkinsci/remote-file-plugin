@@ -1,7 +1,11 @@
-Remote File Plugin
+Remote Jenkinsfile Provider Plugin 
 ==========================
+---------------------------------------
+**Important:** Plugin name had changed to "Remote Jenkinsfile Provider Plugin". 
+The previous name was "Remote File Plugin".
+---------------------------------------
 
-This plugin enables definition of external Jenkins file from another repository for MultiBranch Pipelines.
+This plugin enables definition of external Jenkinsfile from another repository for MultiBranch Pipelines.
 
 # Description
 Jenkins MultiBranch Pipeline feature is great to manage multi branched repositories which need to have
@@ -16,11 +20,11 @@ For eliminating this you can use [Jenkins Shared Library](https://jenkins.io/doc
 However when you are in an large-scaled/enterprise environments with hundreds/thousands of developers with lots of repositories,
 you need to somehow protect the content/stability of the Jenkins Pipeline Scripts to avoid failures. 
 
-In this point Remote File Plugin comes in. With this plugin you can define/set Jenkins files from another
+In this point Remote Jenkinsfile Provider Plugin comes in. With this plugin you can define/set Jenkins files from another
 repository while still able to use MultiBranch Pipeline Project features. This way you will be able to centralize all Jenkins files 
 in another repository where you can review or restrict changes and use MultiBranch Pipeline for multi branched repositories.
 
-In summary, Using MultiBranch Pipeline Jobs with Remote File Plugin you can;
+In summary, Using MultiBranch Pipeline Jobs with Remote Jenkinsfile Provder Plugin you can;
 
 - Centralize Jenkins Files in another repository
 - Easily maintain
@@ -48,7 +52,7 @@ Assume that you have a project to build, named "MyCrazyProject", which is stored
 
 ### Match Branches
 
-If you select option Remote File Plugin tries to find matching branch in repository which defined in Plugin SCM definition with in the Branch Sources SCM definition.
+If you select option Remote Jenkinsfile Provider Plugin tries to find matching branch in repository which defined in Plugin SCM definition with in the Branch Sources SCM definition.
 
 By this, Jenkins Files will be used in the branch of Jenkins File repository which have the same branch name in code source repository.
 
@@ -68,7 +72,7 @@ You can see screenshot of example definition.
 
 ### Local Marker Project Recogniser
 
-When using Remote File Plugin, you might want to build only repositories and branches which contain a certain file or directory.
+When using Remote Jenkinsfile Provider Plugin, you might want to build only repositories and branches which contain a certain file or directory.
 In this case, you may specify a Local Marker in the Plugin SCM Definition. This way, Jenkins will create projects only
 for repositories and branches containing the file or directory you specified.
 

@@ -70,7 +70,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
                 return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
             } catch (Exception ex) {
                 if (ex instanceof AbortException) {
-                    // This can be reason of there is no branch named in the Remote File Repository
+                    // This can be reason of there is no branch named in the Remote Jenkinsfile Provider Repository
                     // Fallback to master branch
                     listener.getLogger().println(this.matchBranchFailMessage);
                     listener.getLogger().println(this.matchBranchFallbackMessage);
@@ -78,7 +78,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
                 }
             }
         }
-        // If matchBranches not checked or SCM is not GitSCM, return with Remote File SCM as defined in Jenkins
+        // If matchBranches not checked or SCM is not GitSCM, return with Remote Jenkinsfile Provider SCM as defined in Jenkins
         return new CpsScmFlowDefinition(this.remoteJenkinsFileSCM, this.remoteJenkinsFile).create(handle, listener, actions);
     }
 
