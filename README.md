@@ -79,6 +79,22 @@ In the example below, only repositories and branches containing a file named `po
 
 ![](images/multibranch-pipeline-local-file-1.png)
 
+### Exclude From Change Set
+In default, SCM changes which are coming from Jenkins File repository are included in Job Change Set. 
+For excluding these changes from change set, add behaviour to this plugin's SCM definition as shown below.
+
+**Important Note: For applying behaviour changes, generated branch jobs must be run once**
+
+![](images/exclude-from-changeset.png)
+
+### Exclude From SCM Poll
+In default, SCM poll will trigger jobs for building if new commits are found in Jenkins File repository.
+For excluding these commits from poll, add behaviour to this plugin's SCM definition as shown below.
+
+**Important Note: For applying behaviour changes, generated branch jobs must be run once**
+
+![](images/exclude-from-poll.png)
+
 ### Note
 
 For filtering branches in the project, you can use "Filter by name" feature.
