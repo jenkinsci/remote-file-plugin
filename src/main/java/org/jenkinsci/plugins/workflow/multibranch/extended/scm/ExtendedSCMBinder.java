@@ -2,10 +2,7 @@ package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
 import hudson.AbortException;
 import hudson.Extension;
-import hudson.model.Action;
-import hudson.model.Descriptor;
-import hudson.model.DescriptorVisibilityFilter;
-import hudson.model.TaskListener;
+import hudson.model.*;
 import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
 import hudson.scm.SCM;
@@ -121,5 +118,10 @@ public class ExtendedSCMBinder extends FlowDefinition {
         GitSCM configuredGitSCM = (GitSCM) this.remoteJenkinsFileSCM;
         return new GitSCM(configuredGitSCM.getUserRemoteConfigs(), Collections.singletonList(new BranchSpec(branchName)), configuredGitSCM.isDoGenerateSubmoduleConfigurations(), configuredGitSCM.getSubmoduleCfg(), configuredGitSCM.getBrowser(), configuredGitSCM.getGitTool(), configuredGitSCM.getExtensions());
     }
+
+    public SCM getRemoteJenkinsFileSCM() {
+        return remoteJenkinsFileSCM;
+    }
+
 
 }

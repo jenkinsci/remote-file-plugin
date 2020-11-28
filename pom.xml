@@ -60,7 +60,7 @@ THE SOFTWARE.
     <properties>
         <java.level>8</java.level>
         <java.version>1.8</java.version>
-        <jenkins.version>2.176.1</jenkins.version>
+        <jenkins.version>2.176.4</jenkins.version>
         <workflow-multibranch.version>2.21</workflow-multibranch.version>
         <cloudbees-bitbucket-branch-source.version>2.4.4</cloudbees-bitbucket-branch-source.version>
         <scm-api.version>2.5.1</scm-api.version>
@@ -225,7 +225,6 @@ THE SOFTWARE.
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git-client</artifactId>
             <version>${git-client.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
