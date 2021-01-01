@@ -2,26 +2,19 @@ package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
 import hudson.AbortException;
 import hudson.Extension;
-import hudson.Launcher;
 import hudson.model.*;
-import hudson.model.listeners.RunListener;
 import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
 import hudson.scm.SCM;
-import hudson.tasks.BuildWrapper;
-import hudson.tasks.BuildWrapperDescriptor;
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinitionDescriptor;
 import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 import org.jenkinsci.plugins.workflow.flow.FlowExecutionOwner;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -128,15 +121,6 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     public SCM getRemoteJenkinsFileSCM() {
         return remoteJenkinsFileSCM;
-    }
-
-
-    public static class CustomBuildListener extends RunListener<WorkflowRun>{
-        @Override
-        public void onInitialize(WorkflowRun workflowRun) {
-
-            super.onInitialize(workflowRun);
-        }
     }
 
     public String getRemoteJenkinsFile() {
