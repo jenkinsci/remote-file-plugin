@@ -54,10 +54,10 @@ public class ExtendedSCMBinder extends FlowDefinition {
      * Overwrites create method of FlowDefiniton class. This methods sets the defined Jenkins file and defined SCM on
      * Remote Jenkins Plugin to Pipeline job which will be created by MultiBranch Pipeline.
      *
-     * @param handle   @{@link FlowExecutionOwner}
-     * @param listener @{@link TaskListener}
-     * @param actions  List of @{@link Action}
-     * @return @{@link FlowExecution}
+     * @param handle   {@link FlowExecutionOwner}
+     * @param listener {@link TaskListener}
+     * @param actions  List of {@link Action}
+     * @return {@link FlowExecution}
      * @throws Exception
      */
     @Override
@@ -80,7 +80,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
     }
 
     /**
-     * Descriptor Implementation for @{@link FlowDefinitionDescriptor}.
+     * Descriptor Implementation for {@link FlowDefinitionDescriptor}.
      */
     @Extension
     public static class DescriptorImpl extends FlowDefinitionDescriptor {
@@ -110,9 +110,9 @@ public class ExtendedSCMBinder extends FlowDefinition {
     }
 
     /**
-     * Genereate new @{@link SCM} object with a given branch name from defined Remote Jenkins File SCM definition
-     * @param branchName Branch name to use in new @{@link SCM}
-     * @return new @{@link SCM} defined with new branch
+     * Genereate new {@link SCM} object with a given branch name from defined Remote Jenkins File SCM definition
+     * @param branchName Branch name to use in new {@link SCM}
+     * @return new {@link SCM} defined with new branch
      */
     private GitSCM generateSCMWithNewBranch(String branchName) {
         GitSCM configuredGitSCM = (GitSCM) this.remoteJenkinsFileSCM;

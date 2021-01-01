@@ -17,7 +17,7 @@ import org.kohsuke.stapler.DataBoundSetter;
 import javax.annotation.CheckForNull;
 
 /**
- * This class extends @{@link AbstractWorkflowMultiBranchProjectFactory} to inject defined Jenkins file and repository in
+ * This class extends {@link AbstractWorkflowMultiBranchProjectFactory} to inject defined Jenkins file and repository in
  * Remote Jenkins File Plugin
  * @author Julien Roy, julien.vanroy@gmail.com
  */
@@ -36,7 +36,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Jenkins @{@link DataBoundSetter}
+     * Jenkins {@link DataBoundSetter}
      *
      * @param remoteJenkinsFile path of the Jenkinsfile
      */
@@ -50,9 +50,9 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Jenkins @{@link DataBoundSetter}
+     * Jenkins {@link DataBoundSetter}
      *
-     * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
+     * @param remoteJenkinsFileSCM {@link SCM} definition for the Jenkinsfile
      */
     @DataBoundSetter
     public void setRemoteJenkinsFileSCM(SCM remoteJenkinsFileSCM) {
@@ -60,7 +60,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Jenkins @{@link DataBoundSetter}
+     * Jenkins {@link DataBoundSetter}
      *
      * @param localMarkerForRecognize file to search in local repository to activate build ( can be null )
      */
@@ -70,10 +70,10 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Jenkins @{@link DataBoundConstructor}
+     * Jenkins {@link DataBoundConstructor}
      *
      * @param remoteJenkinsFile    path of the Jenkinsfile
-     * @param remoteJenkinsFileSCM @{@link SCM} definition for the Jenkinsfile
+     * @param remoteJenkinsFileSCM {@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
     public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localMarker, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
@@ -84,10 +84,10 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     * Extends @{@link WorkflowBranchProjectFactory}
+     * Extends {@link WorkflowBranchProjectFactory}
      *
-     * @param source @{@link SCMSource}
-     * @return @{@link SCMSourceCriteria}
+     * @param source {@link SCMSource}
+     * @return {@link SCMSourceCriteria}
      */
     @Override
     protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
@@ -103,7 +103,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.remoteJenkinsFile
+     * @return remoteJenkinsFile
      */
     public String getRemoteJenkinsFile() {
         return remoteJenkinsFile;
@@ -111,7 +111,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.remoteJenkinsFile
+     * @return remoteJenkinsFile
      */
     public SCM getRemoteJenkinsFileSCM() {
         return remoteJenkinsFileSCM;
@@ -119,14 +119,14 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.localMarker
+     * @return localMarker
      */
     public String getLocalMarker() {
         return localMarker;
     }
 
     /**
-     * Descriptor Implementation for @{@link org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory}
+     * Descriptor Implementation for {@link org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory}
      */
     @Extension
     public static class DescriptorImpl extends MultiBranchProjectFactoryDescriptor {
@@ -150,7 +150,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     }
 
     /**
-     *Jenkins @{@link DataBoundSetter}
+     *Jenkins {@link DataBoundSetter}
      * @param matchBranches True to enable match branches feature
      */
     @DataBoundSetter
@@ -160,14 +160,14 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.matchBranches
+     * @return matchBranches
      */
     public boolean getMatchBranches() {
         return matchBranches;
     }
 
     /**
-     * Set  @this.scmSourceBranchName to be used in new scm definition with new branch nameLocal
+     * Set  scmSourceBranchName to be used in new scm definition with new branch nameLocal
      * @param scmSourceBranchName Current branch name which MultiBranch pipeline working on.
      */
     public void setScmSourceBranchName(String scmSourceBranchName) {
@@ -176,7 +176,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     /**
      * Default getter method
-     * @return @this.scmSourceBranchName
+     * @return scmSourceBranchName
      */
     public String getScmSourceBranchName() {
         return scmSourceBranchName;
