@@ -10,7 +10,6 @@ import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.ExtendedSCMBinder;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.StringJoiner;
@@ -22,7 +21,7 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
     public static final String RJPP_JFILE_ENV_NAME = "RJPP_JENKINSFILE";
 
     @Override
-    public void buildEnvironmentFor(@NotNull Run r, @NotNull EnvVars envs, @NotNull TaskListener listener) throws IOException, InterruptedException {
+    public void buildEnvironmentFor(Run r, EnvVars envs, TaskListener listener) throws IOException, InterruptedException {
         if (r instanceof WorkflowRun) {
             WorkflowRun workflowRun = (WorkflowRun) r;
             WorkflowJob workflowJob = workflowRun.getParent();

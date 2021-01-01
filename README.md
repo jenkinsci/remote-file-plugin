@@ -44,6 +44,8 @@ echo "${env.RJPP_SCM_URL}"
 echo "${env.RJPP_JENKINSFILE}"
 ```
 
+**This feature only works for Git SCM definitions**
+
 # Configuration
 
 To use this Plugin first you need to install it from Jenkins Plugin Site, for details see Managing Plugins
