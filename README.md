@@ -30,6 +30,22 @@ In summary, Using MultiBranch Pipeline Jobs with Remote Jenkinsfile Provider Plu
 - Review or restrict changes
 - Apply changes to all Pipelines in seconds
 
+# Environment Variables
+Remote Jenkinsfile Provider plugin injects two environment variables into every build automatically.
+These variables are described below,
+
+-   RJPP_SCM_URL: URl of the repository as String which is defined in Remote Jenkinsfile Provider. 
+    Comma separated if there are more than one URL definition.
+-   RJPP_JENKINSFILE: Script Path of the Jenkinsfile as defined in Remote Jenkinsfile Provider.
+
+These variables can be retrieved same as other environment variables in Jenkins.
+```
+echo "${env.RJPP_SCM_URL}"
+echo "${env.RJPP_JENKINSFILE}"
+```
+
+**This feature only works for Git SCM definitions**
+
 # Configuration
 
 To use this Plugin first you need to install it from Jenkins Plugin Site, for details see Managing Plugins
@@ -59,7 +75,7 @@ Branch Specifier will be ignored if this options is checked.
 
 If plugin cannot find same branch name in the Jenkins File repository, it will automatically fall back to master branch and search for Jenkins file in it.
 
-This feature only work for Git SCM definitions
+**This feature only works for Git SCM definitions**
 
 You can see screenshot of example definition.
 

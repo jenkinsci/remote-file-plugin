@@ -123,5 +123,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
         return remoteJenkinsFileSCM;
     }
 
-
+    public String getRemoteJenkinsFile() {
+        return remoteJenkinsFile;
+    }
 }

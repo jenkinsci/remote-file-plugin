@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
+import hudson.EnvVars;
 import hudson.model.Label;
 import hudson.plugins.git.GitSCM;
 import hudson.slaves.DumbSlave;
@@ -16,8 +17,7 @@ import org.jvnet.hudson.test.JenkinsRule;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("ALL")
 public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
@@ -191,6 +191,12 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
                     jenkins.assertLogContains("Failed to checkout", lastBuild);
                     jenkins.assertLogContains("Try to checkout " + fallBackBranch, lastBuild);
                 }
+                //Check Environment Variables
+                EnvVars environment = lastBuild.getEnvironment();
+                assertTrue(environment.containsKey(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME));
+                assertTrue(environment.containsKey(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME));
+                assertEquals(this.jenkinsFile, environment.get(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME));
+                assertEquals(this.remoteJenkinsFileRepoSCM.getRepositories().get(0).getURIs().get(0).toString(), environment.get(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME));
             } else {
                 assertNull(branchJob);
             }
