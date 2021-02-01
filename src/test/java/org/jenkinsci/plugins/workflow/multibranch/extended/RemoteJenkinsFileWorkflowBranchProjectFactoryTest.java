@@ -181,6 +181,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     private void checkBranchJobsAndLogs(WorkflowMultiBranchProject workflowMultiBranchProject, boolean checkForMatchBranch, boolean isLocalFileDefined, String fallBackBranch) throws Exception {
         // Check build num and logs for created Branch Jobs
         for (String branchName : this.scmBranches) {
+            String branchNameToCheck = branchName;
             WorkflowJob branchJob = workflowMultiBranchProject.getJob(branchName);
             if ("master".equals(branchName) || !isLocalFileDefined) {
                 WorkflowRun lastBuild = branchJob.getLastBuild();
@@ -190,13 +191,16 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
                 if (checkForMatchBranch && branchName != fallBackBranch) {
                     jenkins.assertLogContains("Failed to checkout", lastBuild);
                     jenkins.assertLogContains("Try to checkout " + fallBackBranch, lastBuild);
+                    branchNameToCheck = fallBackBranch;
                 }
                 //Check Environment Variables
                 EnvVars environment = lastBuild.getEnvironment();
                 assertTrue(environment.containsKey(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME));
                 assertTrue(environment.containsKey(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME));
+                assertTrue(environment.containsKey(RemoteJenkinsFileItemListener.RJPP_BRANCH_ENV_NAME));
                 assertEquals(this.jenkinsFile, environment.get(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME));
                 assertEquals(this.remoteJenkinsFileRepoSCM.getRepositories().get(0).getURIs().get(0).toString(), environment.get(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME));
+                assertEquals(branchNameToCheck, environment.get(RemoteJenkinsFileItemListener.RJPP_BRANCH_ENV_NAME));
             } else {
                 assertNull(branchJob);
             }
