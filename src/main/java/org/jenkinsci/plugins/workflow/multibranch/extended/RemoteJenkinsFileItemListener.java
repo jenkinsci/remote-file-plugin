@@ -19,6 +19,7 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
 
     public static final String RJPP_SCM_ENV_NAME = "RJPP_SCM_URL";
     public static final String RJPP_JFILE_ENV_NAME = "RJPP_JENKINSFILE";
+    public static final String RJPP_BRANCH_ENV_NAME = "RJPP_BRANCH";
 
     @Override
     public void buildEnvironmentFor(Run r, EnvVars envs, TaskListener listener) throws IOException, InterruptedException {
@@ -37,8 +38,9 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
                         }
                     }
                     String jenkinsFile = extendedSCMBinder.getRemoteJenkinsFile();
-                    envs.put(this.RJPP_SCM_ENV_NAME, scmUrls.toString());
-                    envs.put(this.RJPP_JFILE_ENV_NAME, jenkinsFile);
+                    envs.put(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME, scmUrls.toString());
+                    envs.put(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME, jenkinsFile);
+                    envs.put(RemoteJenkinsFileItemListener.RJPP_BRANCH_ENV_NAME, extendedSCMBinder.getRemoteJenkinsFileBranch());
                 }
             }
         }

@@ -26,6 +26,7 @@ import java.util.List;
 public class ExtendedSCMBinder extends FlowDefinition {
 
     private String remoteJenkinsFile;
+    private String remoteJenkinsFileBranch;
     private SCM remoteJenkinsFileSCM;
     private String scmSourceBranchName;
     private boolean matchBranches;
@@ -45,13 +46,14 @@ public class ExtendedSCMBinder extends FlowDefinition {
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
         this.scmSourceBranchName = scmSourceBranchName;
+        this.remoteJenkinsFileBranch = scmSourceBranchName;
         this.fallbackBranch = fallbackBranch;
         this.matchBranchFailMessage = "Failed to checkout for " + this.scmSourceBranchName + " branch for Jenkins File.";
         this.matchBranchFallbackMessage = "Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ";
     }
 
     /**
-     * Overwrites create method of FlowDefiniton class. This methods sets the defined Jenkins file and defined SCM on
+     * Overwrites create method of FlowDefinition class. This methods sets the defined Jenkins file and defined SCM on
      * Remote Jenkins Plugin to Pipeline job which will be created by MultiBranch Pipeline.
      *
      * @param handle   {@link FlowExecutionOwner}
@@ -64,6 +66,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
     public FlowExecution create(FlowExecutionOwner handle, TaskListener listener, List<? extends Action> actions) throws Exception {
         if (this.matchBranches && this.remoteJenkinsFileSCM instanceof GitSCM) {
             try {
+                this.remoteJenkinsFileBranch = this.scmSourceBranchName;
                 return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(this.scmSourceBranchName), this.remoteJenkinsFile).create(handle, listener, actions);
             } catch (Exception ex) {
                 if (ex instanceof AbortException) {
@@ -71,7 +74,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
                     // Fallback to master branch
                     listener.getLogger().println(this.matchBranchFailMessage);
                     listener.getLogger().println(this.matchBranchFallbackMessage);
-                    return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(fallbackBranch), this.remoteJenkinsFile).create(handle, listener, actions);
+                    this.remoteJenkinsFileBranch = this.fallbackBranch;
+                    return new CpsScmFlowDefinition(this.generateSCMWithNewBranch(this.fallbackBranch), this.remoteJenkinsFile).create(handle, listener, actions);
                 }
             }
         }
@@ -125,5 +129,9 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     public String getRemoteJenkinsFile() {
         return remoteJenkinsFile;
+    }
+
+    public String getRemoteJenkinsFileBranch() {
+        return remoteJenkinsFileBranch;
     }
 }
