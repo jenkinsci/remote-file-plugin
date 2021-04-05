@@ -29,7 +29,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
     private boolean matchBranches;
-    private String scmSourceBranchName;
+    private String scmSourceBranchName = "master";
     private String fallbackBranch = "master";
 
 
