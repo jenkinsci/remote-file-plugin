@@ -101,6 +101,8 @@ For excluding these changes from change set, add behaviour to this plugin's SCM 
 
 **Important Note: For applying behaviour changes, generated branch jobs must be run once**
 
+**Important Note: This feature is supported only for Git**
+
 ![](images/exclude-from-changeset.png)
 
 ### Exclude From SCM Poll
@@ -108,6 +110,8 @@ In default, SCM poll will trigger jobs for building if new commits are found in 
 For excluding these commits from poll, add behaviour to this plugin's SCM definition as shown below.
 
 **Important Note: For applying behaviour changes, generated branch jobs must be run once**
+
+**Important Note: This feature is supported only for Git**
 
 ![](images/exclude-from-poll.png)
 

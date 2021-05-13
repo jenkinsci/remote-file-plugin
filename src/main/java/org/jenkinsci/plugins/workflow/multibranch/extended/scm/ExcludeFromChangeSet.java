@@ -56,16 +56,18 @@ public class ExcludeFromChangeSet extends GitSCMExtension {
                 return;
             }
             ExtendedSCMBinder extendedSCMBinder = (ExtendedSCMBinder) flowDefinition;
-            GitSCM remoteJenkinsFileSCM = (GitSCM) extendedSCMBinder.getRemoteJenkinsFileSCM();
-            if (remoteJenkinsFileSCM.getKey().equals(scm.getKey())) {
-                DescribableList<GitSCMExtension, GitSCMExtensionDescriptor> extensions = remoteJenkinsFileSCM.getExtensions();
-                for(GitSCMExtension gitSCMExtension : extensions) {
-                    if( gitSCMExtension instanceof ExcludeFromChangeSet) {
-                        if (changelogFile != null) {
-                            // Empty changelog file to persist
-                            FileUtils.write(changelogFile, "");
-                            // Clear change set
-                            workflowRun.getChangeSets().clear();
+            if ( extendedSCMBinder.getRemoteJenkinsFileSCM() instanceof GitSCM) {
+                GitSCM remoteJenkinsFileSCM = (GitSCM) extendedSCMBinder.getRemoteJenkinsFileSCM();
+                if (remoteJenkinsFileSCM.getKey().equals(scm.getKey())) {
+                    DescribableList<GitSCMExtension, GitSCMExtensionDescriptor> extensions = remoteJenkinsFileSCM.getExtensions();
+                    for (GitSCMExtension gitSCMExtension : extensions) {
+                        if (gitSCMExtension instanceof ExcludeFromChangeSet) {
+                            if (changelogFile != null) {
+                                // Empty changelog file to persist
+                                FileUtils.write(changelogFile, "");
+                                // Clear change set
+                                workflowRun.getChangeSets().clear();
+                            }
                         }
                     }
                 }
