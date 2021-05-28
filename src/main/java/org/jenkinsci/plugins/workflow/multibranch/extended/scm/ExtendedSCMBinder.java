@@ -132,6 +132,10 @@ public class ExtendedSCMBinder extends FlowDefinition {
     }
 
     public String getRemoteJenkinsFileBranch() {
+        // This null check is required for the jobs which were using version 1.12 ( or older).
+        // This value was not implemented on that version. Therefore, It becomes as null
+        if( remoteJenkinsFileBranch == null)
+            return "N/A";
         return remoteJenkinsFileBranch;
     }
 }
