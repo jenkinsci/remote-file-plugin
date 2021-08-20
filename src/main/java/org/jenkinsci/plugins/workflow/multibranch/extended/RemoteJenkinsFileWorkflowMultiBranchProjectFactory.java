@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.scm.SCM;
 import jenkins.branch.MultiBranchProjectFactory;
@@ -13,8 +15,6 @@ import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.LocalMarkerSCMSourceCriteria;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-
-import javax.annotation.CheckForNull;
 
 /**
  * This class extends {@link AbstractWorkflowMultiBranchProjectFactory} to inject defined Jenkins file and repository in
@@ -90,7 +90,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      * @return {@link SCMSourceCriteria}
      */
     @Override
-    protected SCMSourceCriteria getSCMSourceCriteria(SCMSource source) {
+    protected SCMSourceCriteria getSCMSourceCriteria(@NonNull SCMSource source) {
         return (probe, taskListener) -> {
             // Don't match if remote SCM of remoteFileName is not configured
             if (this.remoteJenkinsFileSCM == null || StringUtils.isEmpty(this.remoteJenkinsFile)) {
@@ -131,6 +131,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     @Extension
     public static class DescriptorImpl extends MultiBranchProjectFactoryDescriptor {
 
+        @NonNull
         @Override
         public String getDisplayName() {
             return org.jenkinsci.plugins.workflow.multibranch.extended.Messages.ProjectRecognizer_DisplayName();

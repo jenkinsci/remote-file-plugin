@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.model.Descriptor;
@@ -21,9 +23,8 @@ import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class extends GitSCMExtension for excluding git change log from plugin SCM
@@ -35,6 +36,7 @@ public class ExcludeFromChangeSet extends GitSCMExtension {
 
     @Extension
     public static class DescriptorImpl extends GitSCMExtensionDescriptor {
+        @NonNull
         @Override
         public String getDisplayName() {
             return "Exclude From ChangeSet";
@@ -64,7 +66,7 @@ public class ExcludeFromChangeSet extends GitSCMExtension {
                         if (gitSCMExtension instanceof ExcludeFromChangeSet) {
                             if (changelogFile != null) {
                                 // Empty changelog file to persist
-                                FileUtils.write(changelogFile, "");
+                                FileUtils.write(changelogFile, "", StandardCharsets.UTF_8);
                                 // Clear change set
                                 workflowRun.getChangeSets().clear();
                             }
@@ -79,15 +81,13 @@ public class ExcludeFromChangeSet extends GitSCMExtension {
     public static class HideMe extends DescriptorVisibilityFilter {
 
         @Override
-        public boolean filter(Object context, @Nonnull Descriptor descriptor) {
-            if( descriptor instanceof ExcludeFromChangeSet.DescriptorImpl) {
-                if( context instanceof WorkflowMultiBranchProject ) {
+        public boolean filter(Object context, @NonNull Descriptor descriptor) {
+            if (descriptor instanceof ExcludeFromChangeSet.DescriptorImpl) {
+                if (context instanceof WorkflowMultiBranchProject) {
                     return true;
+                } else {
+                    return context instanceof OrganizationFolder;
                 }
-                else if ( context instanceof OrganizationFolder) {
-                    return true;
-                }
-                return false;
             }
             return true;
         }

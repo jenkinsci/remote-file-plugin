@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.*;
@@ -22,7 +23,7 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
     public static final String RJPP_BRANCH_ENV_NAME = "RJPP_BRANCH";
 
     @Override
-    public void buildEnvironmentFor(Run r, EnvVars envs, TaskListener listener) throws IOException, InterruptedException {
+    public void buildEnvironmentFor(@NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener) throws IOException, InterruptedException {
         if (r instanceof WorkflowRun) {
             WorkflowRun workflowRun = (WorkflowRun) r;
             WorkflowJob workflowJob = workflowRun.getParent();

@@ -18,7 +18,7 @@ public class SCMFilter {
      */
     public static Collection<? extends SCMDescriptor<?>> filter() {
         ArrayList<SCMDescriptor<?>> list = new ArrayList<>();
-        for (SCMDescriptor scmDescriptor : SCM.all()) {
+        for (SCMDescriptor<?> scmDescriptor : SCM.all()) {
             if (!scmDescriptor.getDisplayName().equals("None")) {
                 list.add(scmDescriptor);
             }

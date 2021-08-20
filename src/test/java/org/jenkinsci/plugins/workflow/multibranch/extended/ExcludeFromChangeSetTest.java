@@ -1,11 +1,8 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
-import hudson.model.Label;
-import hudson.model.queue.QueueTaskFuture;
 import hudson.plugins.git.GitChangeSet;
 import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.extensions.GitSCMExtension;
-import hudson.slaves.DumbSlave;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
@@ -23,7 +20,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 
 public class ExcludeFromChangeSetTest {
@@ -37,13 +33,13 @@ public class ExcludeFromChangeSetTest {
 
     private GitSCMSource sourceCodeRepoSCMSource;
     private GitSCM remoteJenkinsFileRepoSCM;
-    private String testFileInitalContent = "Initial Content of Test File";
-    private String jenkinsFile = "Jenkinsfile";
-    private String[] scmBranches = {"master"};
-    private String projectName = "RemoteJenkinsFileProject";
-    private String pipelineScript = "pipeline { agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
-    private String localFile = "pom.xml";
-    private String changeNotVisible = "ChangeNotVisible";
+    private final String testFileInitalContent = "Initial Content of Test File";
+    private final String jenkinsFile = "Jenkinsfile";
+    private final String[] scmBranches = {"master"};
+    private final String projectName = "RemoteJenkinsFileProject";
+    private final String pipelineScript = "pipeline { agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
+    private final String localFile = "pom.xml";
+    private final String changeNotVisible = "ChangeNotVisible";
 
     @Before
     public void setup() throws Exception {
@@ -116,14 +112,12 @@ public class ExcludeFromChangeSetTest {
             this.jenkins.waitUntilNoActivity();
             lastBuild = branchJob.getLastBuild();
             assertEquals(2, lastBuild.getNumber());
-            lastBuild.getChangeSets().forEach(changeLogSet -> {
-                Arrays.asList(changeLogSet.getItems()).forEach(o -> {
-                    GitChangeSet gitChangeSet = (GitChangeSet) o;
-                    if (gitChangeSet.getMsg().contains(changeNotVisible)) {
-                        Assert.fail("Change Commit is visible");
-                    }
-                });
-            });
+            lastBuild.getChangeSets().forEach(changeLogSet -> Arrays.asList(changeLogSet.getItems()).forEach(o -> {
+                GitChangeSet gitChangeSet = (GitChangeSet) o;
+                if (gitChangeSet.getMsg().contains(changeNotVisible)) {
+                    Assert.fail("Change Commit is visible");
+                }
+            }));
         }
     }
 

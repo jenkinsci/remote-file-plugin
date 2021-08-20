@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.AbortException;
 import hudson.Extension;
 import hudson.model.*;
@@ -14,7 +15,6 @@ import org.jenkinsci.plugins.workflow.flow.FlowExecutionOwner;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     private String remoteJenkinsFile = "";
     private String remoteJenkinsFileBranch = "";
-    private SCM remoteJenkinsFileSCM;
-    private String scmSourceBranchName;
-    private boolean matchBranches;
-    private String fallbackBranch;
-    private String matchBranchFailMessage;
-    private String matchBranchFallbackMessage;
+    private final SCM remoteJenkinsFileSCM;
+    private final String scmSourceBranchName;
+    private final boolean matchBranches;
+    private final String fallbackBranch;
+    private final String matchBranchFailMessage;
+    private final String matchBranchFallbackMessage;
 
 
     /**
@@ -89,6 +89,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
     @Extension
     public static class DescriptorImpl extends FlowDefinitionDescriptor {
 
+        @NonNull
         @Override
         public String getDisplayName() {
             return "Pipeline from Remote Jenkins File Plugin";
@@ -104,7 +105,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
     public static class HideMe extends DescriptorVisibilityFilter {
 
         @Override
-        public boolean filter(Object context, @Nonnull Descriptor descriptor) {
+        public boolean filter(Object context, @NonNull Descriptor descriptor) {
             if (descriptor instanceof DescriptorImpl) {
                 return context instanceof WorkflowJob && ((WorkflowJob) context).getParent() instanceof WorkflowMultiBranchProject;
             }
