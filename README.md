@@ -119,6 +119,55 @@ For excluding these commits from poll, add behaviour to this plugin's SCM defini
 
 For filtering branches in the project, you can use "Filter by name" feature.
 
+
+# Configuration with Job DSL
+Remote Jenkinsfile Plugin Provider can be configured with Job DSL.
+
+For configuring, please use the Job DSL script below.
+
+```
+multibranchPipelineJob('example') {
+  // Below definiton comes from Job DSL. This is a basic example. 
+  // For details please visit https://jenkinsci.github.io/job-dsl-plugin/#method/javaposse.jobdsl.dsl.jobs.MultibranchWorkflowJob.branchSources
+  branchSources {
+    git {
+      id('1')
+      remote('https://github.com/jenkinsci/remote-file-plugin.git')
+      includes('master')
+    }
+  }
+
+  // Below section for configuring Remote Jenkinsfile Provider Plugin with defaults
+  factory{
+    remoteJenkinsFileWorkflowBranchProjectFactory{
+      localMarker("")
+      matchBranches(true)
+      remoteJenkinsFile("Jenkinsfile")
+      remoteJenkinsFileSCM{
+        gitSCM{
+          userRemoteConfigs{
+            userRemoteConfig{
+              name("MyRepo") //Custom Repository Name or ID
+              url("https://github.com/aytuncbeken/multibranch-action-triggers-test.git") //URL for the repository
+              refspec("master") // Branch spec
+              credentialsId("") // Credential ID. Leave blank if not required
+            }
+            browser{} // Leave blank for default Git Browser
+            gitTool("") //Leave blank for default git executable
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+For viewing other definition alternatives with different SCMs, please follow the steps below.
+
+1.  Install Job DSL plugin on your Jenkins
+2.  Navigate to address **http://YOUR_JENKINS_INSTANCE**/plugin/job-dsl/api-viewer/index.html#method/javaposse.jobdsl.dsl.helpers.workflow.BranchProjectFactoryContext.remoteJenkinsFileWorkflowBranchProjectFactory*
+3.  Expand ```remoteJenkinsFileSCM``` section. This will show available SCM definition options.
+
 Reporting Issues
 ======
 Please create issue in this repository.
