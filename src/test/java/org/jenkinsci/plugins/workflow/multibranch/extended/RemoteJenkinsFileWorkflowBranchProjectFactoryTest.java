@@ -167,7 +167,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     private WorkflowMultiBranchProject createProjectWithRemoteJenkinsFile(boolean matchBranches, String localFile, String fallBackBranch) throws IOException {
         WorkflowMultiBranchProject workflowMultiBranchProject = this.jenkins.createProject(WorkflowMultiBranchProject.class, this.projectName);
         workflowMultiBranchProject.getSourcesList().add(new BranchSource(this.sourceCodeRepoSCMSource));
-        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, localFile, this.remoteJenkinsFileRepoSCM, matchBranches, fallBackBranch);
+        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, localFile, this.remoteJenkinsFileRepoSCM, matchBranches, fallBackBranch,false);
         workflowMultiBranchProject.setProjectFactory(remoteJenkinsFileWorkflowBranchProjectFactory);
         return workflowMultiBranchProject;
     }

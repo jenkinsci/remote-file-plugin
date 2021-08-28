@@ -12,6 +12,7 @@ import org.jenkinsci.plugins.workflow.flow.FlowDefinitionDescriptor;
 import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 import org.jenkinsci.plugins.workflow.flow.FlowExecutionOwner;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 import javax.annotation.Nonnull;
@@ -27,12 +28,14 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     private String remoteJenkinsFile = "";
     private String remoteJenkinsFileBranch = "";
+    private String originJenkinsFileDefinition = "";
     private SCM remoteJenkinsFileSCM;
     private String scmSourceBranchName;
     private boolean matchBranches;
     private String fallbackBranch;
     private String matchBranchFailMessage;
     private String matchBranchFallbackMessage;
+    private Boolean lookupInParameters;
 
 
     /**
@@ -41,7 +44,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
      * @param remoteJenkinsFile    Path of the remote jenkins file from Remote Jenkins File Plugin descriptor
      * @param remoteJenkinsFileSCM SCM definition from Remote Jenkins File Plugin descriptor
      */
-    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches, String fallbackBranch) {
+    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches, String fallbackBranch, String originJenkinsFileDefinition, Boolean lookupInParameters) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
@@ -50,6 +53,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
         this.fallbackBranch = fallbackBranch;
         this.matchBranchFailMessage = "Failed to checkout for " + this.scmSourceBranchName + " branch for Jenkins File.";
         this.matchBranchFallbackMessage = "Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ";
+        this.originJenkinsFileDefinition = originJenkinsFileDefinition;
+        this.lookupInParameters = lookupInParameters;
     }
 
     /**
@@ -64,6 +69,32 @@ public class ExtendedSCMBinder extends FlowDefinition {
      */
     @Override
     public FlowExecution create(FlowExecutionOwner handle, TaskListener listener, List<? extends Action> actions) throws Exception {
+        // Be sure that old versions of this plugin is working
+        if( this.lookupInParameters != null && this.originJenkinsFileDefinition != null) {
+            if (this.lookupInParameters && this.originJenkinsFileDefinition.startsWith("$")) {
+                //Clean parameter name for later use
+                String jenkinsfileParameterName = this.originJenkinsFileDefinition.replace("$", "").replace("{", "").replace("}", "");
+                //Setting default Jenkinsfile if jenkinsfileParameterName not found in parameters
+                String newJenkinsFile = "Jenkinsfile";
+                //Search for ParametersAction in Actions
+                for (Action action : actions) {
+                    if (action instanceof ParametersAction) {
+                        //This can be the parameter that we are looking for
+                        ParametersAction parametersAction = (ParametersAction) action;
+                        //Check if the parameter name matches with JenkinsfileParameter
+                        ParameterValue parameterValue = parametersAction.getParameter(jenkinsfileParameterName);
+                        if( parameterValue != null) {
+                            // If the parameters is there, set the value as new Jenkinsfile
+                            newJenkinsFile = String.valueOf(parameterValue.getValue());
+                        }
+                    }
+                }
+
+                this.remoteJenkinsFile = newJenkinsFile;
+            }
+        }
+
+
         if (this.matchBranches && this.remoteJenkinsFileSCM instanceof GitSCM) {
             try {
                 this.remoteJenkinsFileBranch = this.scmSourceBranchName;

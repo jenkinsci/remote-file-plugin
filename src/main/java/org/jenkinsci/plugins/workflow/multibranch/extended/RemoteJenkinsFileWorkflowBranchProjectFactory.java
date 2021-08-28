@@ -28,10 +28,21 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     private String localMarker;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
-    private boolean matchBranches;
+    private Boolean matchBranches;
     private String scmSourceBranchName = "master";
     private String fallbackBranch = "master";
+    private Boolean lookupInParameters = false;
 
+
+
+    public Boolean getLookupInParameters() {
+        return lookupInParameters;
+    }
+
+    @DataBoundSetter
+    public void setLookupInParameters(Boolean lookupInParameters) {
+        this.lookupInParameters = lookupInParameters;
+    }
 
     /**
      * Jenkins {@link DataBoundSetter}
@@ -66,12 +77,13 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      * @param remoteJenkinsFileSCM {@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localMarker, SCM remoteJenkinsFileSCM, boolean matchBranches, String fallbackBranch) {
+    public RemoteJenkinsFileWorkflowBranchProjectFactory(String remoteJenkinsFile, String localMarker, SCM remoteJenkinsFileSCM, Boolean matchBranches, String fallbackBranch, Boolean lookupInParameters) {
         this.localMarker = localMarker;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
         this.fallbackBranch = fallbackBranch;
+        this.lookupInParameters = lookupInParameters;
     }
 
     /**
@@ -81,7 +93,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Override
     protected FlowDefinition createDefinition() {
-        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches, this.fallbackBranch);
+        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches, this.fallbackBranch, this.remoteJenkinsFile, this.lookupInParameters);
     }
 
     /**
