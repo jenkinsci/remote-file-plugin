@@ -77,7 +77,7 @@ THE SOFTWARE.
         <mailer.version>1.23</mailer.version>
         <workflow-cps-global-lib.version>2.11</workflow-cps-global-lib.version>
         <script-security.version>1.60</script-security.version>
-        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <junit.version>1.6</junit.version>
         <git.version>3.10.0</git.version>
         <git-client.version>2.7.7</git-client.version>
