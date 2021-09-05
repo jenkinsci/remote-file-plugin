@@ -65,7 +65,7 @@ THE SOFTWARE.
         <cloudbees-bitbucket-branch-source.version>2.4.4</cloudbees-bitbucket-branch-source.version>
         <scm-api.version>2.5.1</scm-api.version>
         <workflow-aggregator.version>2.6</workflow-aggregator.version>
-        <workflow-step-api.version>2.20</workflow-step-api.version>
+        <workflow-step-api.version>2.24</workflow-step-api.version>
         <workflow-job.version>2.33</workflow-job.version>
         <workflow-support.version>3.3</workflow-support.version>
         <workflow-api.version>2.35</workflow-api.version>
