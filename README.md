@@ -39,7 +39,7 @@ These variables are described below,
 -   RJPP_JENKINSFILE: Script Path of the Jenkinsfile as defined in Remote Jenkinsfile Provider.
 
 These variables can be retrieved same as other environment variables in Jenkins.
-```
+```groovy
 echo "${env.RJPP_SCM_URL}"
 echo "${env.RJPP_JENKINSFILE}"
 ```
@@ -125,7 +125,7 @@ Remote Jenkinsfile Plugin Provider can be configured with Job DSL.
 
 For configuring, please use the Job DSL script below.
 
-```
+```groovy
 multibranchPipelineJob('example') {
   // Below definiton comes from Job DSL. This is a basic example. 
   // For details please visit https://jenkinsci.github.io/job-dsl-plugin/#method/javaposse.jobdsl.dsl.jobs.MultibranchWorkflowJob.branchSources
