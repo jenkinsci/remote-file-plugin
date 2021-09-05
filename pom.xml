@@ -27,7 +27,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.43</version>
+        <version>4.24</version>
         <relativePath />
     </parent>
     <groupId>io.jenkins.plugins</groupId>
@@ -60,49 +60,40 @@ THE SOFTWARE.
     <properties>
         <java.level>8</java.level>
         <java.version>1.8</java.version>
-        <jenkins.version>2.176.4</jenkins.version>
-        <workflow-multibranch.version>2.21</workflow-multibranch.version>
-        <cloudbees-bitbucket-branch-source.version>2.4.4</cloudbees-bitbucket-branch-source.version>
-        <scm-api.version>2.5.1</scm-api.version>
+        <jenkins.version>2.277.4</jenkins.version>
+        <cloudbees-bitbucket-branch-source.version>2.9.10</cloudbees-bitbucket-branch-source.version>
         <workflow-aggregator.version>2.6</workflow-aggregator.version>
-        <workflow-step-api.version>2.20</workflow-step-api.version>
-        <workflow-job.version>2.33</workflow-job.version>
-        <workflow-support.version>3.3</workflow-support.version>
-        <workflow-api.version>2.35</workflow-api.version>
-        <structs.version>1.19</structs.version>
-        <workflow-cps.version>2.58</workflow-cps.version>
-        <workflow-scm-step.version>2.9</workflow-scm-step.version>
-        <cloudbees-folder.version>6.9</cloudbees-folder.version>
-        <apache-httpcomponents-client-4-api.version>4.5.5-3.0</apache-httpcomponents-client-4-api.version>
-        <mailer.version>1.23</mailer.version>
-        <workflow-cps-global-lib.version>2.11</workflow-cps-global-lib.version>
-        <script-security.version>1.60</script-security.version>
-        <commons-lang3.version>3.8.1</commons-lang3.version>
-        <junit.version>1.6</junit.version>
-        <git.version>3.10.0</git.version>
-        <git-client.version>2.7.7</git-client.version>
-        <credentials.version>2.1.18</credentials.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-2.277.x</artifactId>
+                <version>924.vda78166e6655</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git-client</artifactId>
-            <version>${git-client.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-            <version>${git.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-multibranch</artifactId>
-            <version>${workflow-multibranch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>scm-api</artifactId>
-            <version>${scm-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
@@ -112,62 +103,50 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-step-api</artifactId>
-            <version>${workflow-step-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-job</artifactId>
-            <version>${workflow-job.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-support</artifactId>
-            <version>${workflow-support.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-api</artifactId>
-            <version>${workflow-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>structs</artifactId>
-            <version>${structs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-cps</artifactId>
-            <version>${workflow-cps.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-scm-step</artifactId>
-            <version>${workflow-scm-step.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>cloudbees-folder</artifactId>
-            <version>${cloudbees-folder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>apache-httpcomponents-client-4-api</artifactId>
-            <version>${apache-httpcomponents-client-4-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>mailer</artifactId>
-            <version>${mailer.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-cps-global-lib</artifactId>
-            <version>${workflow-cps-global-lib.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>script-security</artifactId>
-            <version>${script-security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -177,19 +156,16 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>credentials</artifactId>
-            <version>${credentials.version}</version>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>display-url-api</artifactId>
-            <version>2.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>jackson2-api</artifactId>
-            <version>2.9.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -201,13 +177,11 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-            <version>${git.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
@@ -224,7 +198,6 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>scm-api</artifactId>
-            <version>${scm-api.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
@@ -232,24 +205,8 @@ THE SOFTWARE.
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.jenkins-ci.tools</groupId>
-                <artifactId>maven-hpi-plugin</artifactId>
-                <version>3.5</version>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.11</version>
-            </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
                 <executions>
                     <execution>
                         <goals>
