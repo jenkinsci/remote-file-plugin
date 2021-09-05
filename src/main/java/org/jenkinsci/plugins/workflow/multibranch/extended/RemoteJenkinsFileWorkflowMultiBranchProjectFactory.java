@@ -28,11 +28,22 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     private String localMarker;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
-    private boolean matchBranches;
+    private Boolean matchBranches;
     private String scmSourceBranchName;
     private String fallbackBranch;
+    private Boolean lookupInParameters = false;
 
     private RemoteJenkinsFileWorkflowMultiBranchProjectFactory() {
+    }
+
+
+    public Boolean getLookupInParameters() {
+        return lookupInParameters;
+    }
+
+    @DataBoundSetter
+    public void setLookupInParameters(Boolean lookupInParameters) {
+        this.lookupInParameters = lookupInParameters;
     }
 
     /**
@@ -76,11 +87,12 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      * @param remoteJenkinsFileSCM {@link SCM} definition for the Jenkinsfile
      */
     @DataBoundConstructor
-    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localMarker, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, boolean matchBranches) {
+    public RemoteJenkinsFileWorkflowMultiBranchProjectFactory(String localMarker, String remoteJenkinsFile, SCM remoteJenkinsFileSCM, Boolean matchBranches, Boolean lookupInParameters) {
         this.localMarker = localMarker;
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
+        this.lookupInParameters = lookupInParameters;
     }
 
     /**
@@ -146,7 +158,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
 
     @Override
     protected void customize(WorkflowMultiBranchProject project) {
-        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localMarker, this.remoteJenkinsFileSCM, this.getMatchBranches(), this.fallbackBranch);
+        RemoteJenkinsFileWorkflowBranchProjectFactory projectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.remoteJenkinsFile, this.localMarker, this.remoteJenkinsFileSCM, this.getMatchBranches(), this.fallbackBranch, this.lookupInParameters);
         project.setProjectFactory(projectFactory);
     }
 

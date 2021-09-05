@@ -89,7 +89,7 @@ public class ExcludeFromChangeSetTest {
     private WorkflowMultiBranchProject createProjectWithRemoteJenkinsFile() throws IOException {
         WorkflowMultiBranchProject workflowMultiBranchProject = this.jenkins.createProject(WorkflowMultiBranchProject.class, this.projectName);
         workflowMultiBranchProject.getSourcesList().add(new BranchSource(this.sourceCodeRepoSCMSource));
-        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, "", this.remoteJenkinsFileRepoSCM, false, "");
+        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, "", this.remoteJenkinsFileRepoSCM, false, "", false);
         workflowMultiBranchProject.setProjectFactory(remoteJenkinsFileWorkflowBranchProjectFactory);
         return workflowMultiBranchProject;
     }

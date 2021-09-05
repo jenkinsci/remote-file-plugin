@@ -115,7 +115,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
         OrganizationFolder top = r.jenkins.createProject(OrganizationFolder.class, "top");
         top.getNavigators().add(new GitDirectorySCMNavigator(clones.getAbsolutePath()));
         top.getProjectFactories().clear();
-        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory(null, SCRIPT,  new GitSCM(sampleRepo1.toString()),false));
+        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory(null, SCRIPT,  new GitSCM(sampleRepo1.toString()),false,false));
 
         // Make sure we created one multi-branch projects:
         top.scheduleBuild2(0).getFuture().get();
@@ -168,7 +168,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
         OrganizationFolder top = r.jenkins.createProject(OrganizationFolder.class, "top");
         top.getNavigators().add(new GitDirectorySCMNavigator(clones.getAbsolutePath()));
         top.getProjectFactories().clear();
-        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory("pom.xml", SCRIPT,  new GitSCM(sampleRepo1.toString()), false));
+        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory("pom.xml", SCRIPT,  new GitSCM(sampleRepo1.toString()), false,false));
 
         // Make sure we created one multi-branch projects:
         top.scheduleBuild2(0).getFuture().get();
@@ -235,7 +235,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
         OrganizationFolder top = r.jenkins.createProject(OrganizationFolder.class, "top");
         top.getNavigators().add(new GitDirectorySCMNavigator(clones.getAbsolutePath()));
         top.getProjectFactories().clear();
-        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory("pomdir", SCRIPT,  new GitSCM(sampleRepo1.toString()), false));
+        top.getProjectFactories().add(new RemoteJenkinsFileWorkflowMultiBranchProjectFactory("pomdir", SCRIPT,  new GitSCM(sampleRepo1.toString()), false,false));
 
         // Make sure we created one multi-branch projects:
         top.scheduleBuild2(0).getFuture().get();

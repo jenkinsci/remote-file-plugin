@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
+import hudson.model.ParametersAction;
+import hudson.model.StringParameterValue;
 import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.extensions.GitSCMExtension;
 import hudson.triggers.SCMTrigger;
@@ -20,7 +22,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 
-public class ExcludeFromPollTest {
+public class LookupInParametersTest {
 
     @Rule
     public JenkinsRule jenkins = new JenkinsRule();
@@ -31,12 +33,15 @@ public class ExcludeFromPollTest {
 
     private GitSCMSource sourceCodeRepoSCMSource;
     private GitSCM remoteJenkinsFileRepoSCM;
-    private final String testFileInitalContent = "Initial Content of Test File";
-    private final String jenkinsFile = "Jenkinsfile";
-    private final String[] scmBranches = {"master"};
-    private final String projectName = "RemoteJenkinsFileProject";
-    private final String pipelineScript = "pipeline { triggers { pollSCM '* * * * *'}; agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
-    private final String localFile = "pom.xml";
+    private String testFileInitialContent = "Initial Content of Test File";
+    private String jenkinsFileDefault = "jenkinsFile";
+    private String jenkinsFile2 = "jenkinsFile2";
+    private String jenkinsFileParameter = "${JenkinsFileParam}";
+    private String[] scmBranches = {"master"};
+    private String projectName = "RemoteJenkinsFileProject";
+    private String pipelineScript1 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScriptDefault\"             }         }     } }";
+    private String pipelineScript2 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScript2\"             }         }     } }";
+    private String localFile = "pom.xml";
 
     @Before
     public void setup() throws Exception {
@@ -47,7 +52,7 @@ public class ExcludeFromPollTest {
     @Test
     public void testRemoteJenkinsFile() throws Exception {
         // Init Remote Jenkins File Repo with test Jenkinsfile
-        this.initRemoteJenkinsFileRepoWithPipelineScript(new ExcludeFromPoll());
+        this.initRemoteJenkinsFileRepoWithPipelineScript();
         // Create And TestsourceCodeRepo
         this.createProjectAndTest();
     }
@@ -59,34 +64,34 @@ public class ExcludeFromPollTest {
                 this.sourceCodeRepo.git("checkout", "-b", branchName,"master");
                 this.sourceCodeRepo.git("rm", this.localFile);
             } else {
-                this.sourceCodeRepo.write(this.localFile, this.testFileInitalContent + branchName);
+                this.sourceCodeRepo.write(this.localFile, this.testFileInitialContent + branchName);
                 this.sourceCodeRepo.git("add", this.localFile);
             }
-            this.sourceCodeRepo.write("file", this.testFileInitalContent + branchName);
+            this.sourceCodeRepo.write("file", this.testFileInitialContent + branchName);
             this.sourceCodeRepo.git("commit", "--all", "--message=InitRepoWithFile");
         }
         this.sourceCodeRepoSCMSource = new GitSCMSource(null, this.sourceCodeRepo.toString(), "", "*", "", false);
     }
 
-    private void initRemoteJenkinsFileRepo(GitSCMExtension gitSCMExtension) throws Exception {
+    private void initRemoteJenkinsFileRepo() throws Exception {
         this.remoteJenkinsFileRepo.init();
-            this.remoteJenkinsFileRepo.write(this.jenkinsFile, this.pipelineScript);
-        this.remoteJenkinsFileRepo.git("add", this.jenkinsFile);
+            this.remoteJenkinsFileRepo.write(this.jenkinsFileDefault, this.pipelineScript1);
+            this.remoteJenkinsFileRepo.write(this.jenkinsFile2, this.pipelineScript2);
+        this.remoteJenkinsFileRepo.git("add", this.jenkinsFileDefault);
+        this.remoteJenkinsFileRepo.git("add", this.jenkinsFile2);
         this.remoteJenkinsFileRepo.git("commit", "--all", "--message=RemoteJenkinsFileRepoTest");
         this.remoteJenkinsFileRepoSCM = new GitSCM(remoteJenkinsFileRepo.toString());
-        if( gitSCMExtension != null)
-            this.remoteJenkinsFileRepoSCM.getExtensions().add(gitSCMExtension);
     }
 
-    private void initRemoteJenkinsFileRepoWithPipelineScript(GitSCMExtension gitSCMExtension) throws Exception {
-        this.initRemoteJenkinsFileRepo(gitSCMExtension);
+    private void initRemoteJenkinsFileRepoWithPipelineScript() throws Exception {
+        this.initRemoteJenkinsFileRepo();
     }
 
 
     private WorkflowMultiBranchProject createProjectWithRemoteJenkinsFile() throws IOException {
         WorkflowMultiBranchProject workflowMultiBranchProject = this.jenkins.createProject(WorkflowMultiBranchProject.class, this.projectName);
         workflowMultiBranchProject.getSourcesList().add(new BranchSource(this.sourceCodeRepoSCMSource));
-        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFile, "", this.remoteJenkinsFileRepoSCM, false, "",false);
+        RemoteJenkinsFileWorkflowBranchProjectFactory remoteJenkinsFileWorkflowBranchProjectFactory = new RemoteJenkinsFileWorkflowBranchProjectFactory(this.jenkinsFileParameter, "", this.remoteJenkinsFileRepoSCM, false, "",true);
         workflowMultiBranchProject.setProjectFactory(remoteJenkinsFileWorkflowBranchProjectFactory);
         return workflowMultiBranchProject;
     }
@@ -103,20 +108,17 @@ public class ExcludeFromPollTest {
             WorkflowJob branchJob = workflowMultiBranchProject.getJob(branchName);
             WorkflowRun lastBuild = branchJob.getLastBuild();
             lastBuild.writeWholeLogTo(System.out);
-            assertEquals(1, lastBuild.getNumber());
-            this.addDummyCommit();
-            SCMTrigger scmTrigger = branchJob.getSCMTrigger();
-            branchJob.getSCMTrigger().run();
-            this.jenkins.waitUntilNoActivity();
+            jenkins.assertLogContains("pipelineScriptDefault", lastBuild);
+            jenkins.waitUntilNoActivity();
+            branchJob.scheduleBuild2(0, new ParametersAction(new StringParameterValue("JenkinsFileParam","jenkinsFile2")));
+            jenkins.waitUntilNoActivity();
             lastBuild = branchJob.getLastBuild();
-            assertEquals(1, lastBuild.getNumber());
+            lastBuild.writeWholeLogTo(System.out);
+            jenkins.assertLogContains("pipelineScript2", lastBuild);
+            jenkins.waitUntilNoActivity();
         }
     }
 
-    private void addDummyCommit() throws Exception {
-        this.remoteJenkinsFileRepo.write("file", this.jenkinsFile + "\n//Test");
-        this.remoteJenkinsFileRepo.git("commit", "--all", "--message=NoPolling");
-    }
 
     private void createProjectAndTest() throws Exception {
         // Create project with Remote Jenkins File Plugin
