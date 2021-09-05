@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.scm.SCM;
 import hudson.scm.SCMDescriptor;
@@ -25,7 +26,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
 
 
     private static final String defaultJenkinsFile = "Jenkinsfile";
-    private String localMarker;
+    private final String localMarker;
     private String remoteJenkinsFile;
     private SCM remoteJenkinsFileSCM;
     private Boolean matchBranches;
@@ -119,6 +120,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Extension
     public static class DescriptorImpl extends AbstractWorkflowBranchProjectFactoryDescriptor {
+        @NonNull
         @Override
         public String getDisplayName() {
             return "by " + org.jenkinsci.plugins.workflow.multibranch.extended.Messages.ProjectRecognizer_DisplayName();

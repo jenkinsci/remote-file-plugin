@@ -1,13 +1,7 @@
 package org.jenkinsci.plugins.workflow.multibranch.extended;
 
-import hudson.model.TaskListener;
-import hudson.plugins.git.CliGitSCMTriggerLocalPollTest;
-import hudson.plugins.git.GitChangeSet;
 import hudson.plugins.git.GitSCM;
-import hudson.plugins.git.SCMTriggerTest;
 import hudson.plugins.git.extensions.GitSCMExtension;
-import hudson.scm.PollingResult;
-import hudson.slaves.DumbSlave;
 import hudson.triggers.SCMTrigger;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
@@ -15,21 +9,15 @@ import jenkins.plugins.git.GitSampleRepoRule;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
-import org.jenkinsci.plugins.workflow.multibranch.extended.scm.ExcludeFromChangeSet;
 import org.jenkinsci.plugins.workflow.multibranch.extended.scm.ExcludeFromPoll;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 
 public class ExcludeFromPollTest {
@@ -43,12 +31,12 @@ public class ExcludeFromPollTest {
 
     private GitSCMSource sourceCodeRepoSCMSource;
     private GitSCM remoteJenkinsFileRepoSCM;
-    private String testFileInitalContent = "Initial Content of Test File";
-    private String jenkinsFile = "Jenkinsfile";
-    private String[] scmBranches = {"master"};
-    private String projectName = "RemoteJenkinsFileProject";
-    private String pipelineScript = "pipeline { triggers { pollSCM '* * * * *'}; agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
-    private String localFile = "pom.xml";
+    private final String testFileInitalContent = "Initial Content of Test File";
+    private final String jenkinsFile = "Jenkinsfile";
+    private final String[] scmBranches = {"master"};
+    private final String projectName = "RemoteJenkinsFileProject";
+    private final String pipelineScript = "pipeline { triggers { pollSCM '* * * * *'}; agent any; stages { stage('ReadFile') { steps {echo readFile('file')} } } }";
+    private final String localFile = "pom.xml";
 
     @Before
     public void setup() throws Exception {

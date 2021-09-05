@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,7 +67,7 @@ public class GitDirectorySCMNavigator extends SCMNavigator {
                 continue;
             }
             String origin = kid.getAbsolutePath(); // fallback
-            for (String line : IOUtils.readLines(new ByteArrayInputStream(baos.toByteArray()))) {
+            for (String line : IOUtils.readLines(new ByteArrayInputStream(baos.toByteArray()), StandardCharsets.UTF_8)) {
                 Matcher m = ORIGIN.matcher(line);
                 if (m.matches()) {
                     origin = m.group(1);
@@ -85,6 +86,7 @@ public class GitDirectorySCMNavigator extends SCMNavigator {
     @Extension @Symbol("gitDirectory")
     public static class DescriptorImpl extends SCMNavigatorDescriptor {
 
+        @NonNull
         @Override public String getDisplayName() {
             return "Directory of Git checkouts";
         }

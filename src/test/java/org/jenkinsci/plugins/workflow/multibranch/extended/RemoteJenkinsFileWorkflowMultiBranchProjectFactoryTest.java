@@ -22,9 +22,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
 
@@ -190,9 +192,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactoryTest {
     private static WorkflowJob findBranchProject(WorkflowMultiBranchProject mp, String name) throws IOException, InterruptedException {
         WorkflowJob p = mp.getItem(name);
         showIndexing(mp);
-        if (p == null) {
-            fail(name + " project not found");
-        }
+        assertNotNull(name + " project not found", p);
         return p;
     }
 
