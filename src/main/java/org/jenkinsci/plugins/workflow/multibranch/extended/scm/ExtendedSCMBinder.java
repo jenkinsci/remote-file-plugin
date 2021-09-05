@@ -28,7 +28,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     private String remoteJenkinsFile = "";
     private String remoteJenkinsFileBranch = "";
-    private final String originJenkinsFileDefinition = "";
+    private String originJenkinsFileDefinition = "";
     private final Boolean lookupInParameters;
     private final SCM remoteJenkinsFileSCM;
     private final String scmSourceBranchName;
