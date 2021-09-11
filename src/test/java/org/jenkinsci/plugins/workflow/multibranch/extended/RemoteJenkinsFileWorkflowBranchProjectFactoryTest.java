@@ -2,7 +2,10 @@ package org.jenkinsci.plugins.workflow.multibranch.extended;
 
 import hudson.EnvVars;
 import hudson.model.Label;
+import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
+import hudson.plugins.git.UserRemoteConfig;
+import hudson.scm.SCM;
 import hudson.slaves.DumbSlave;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
@@ -16,6 +19,8 @@ import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +39,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     private String testFileInitalContent = "Initial Content of Test File";
     private String jenkinsFile = "Jenkinsfile";
     private String[] scmBranches = {"master", "feature","hotfix"};
+    private String jenkinsFileRepoBranch = "master";
     private String defaultFallBackBranch = "master";
     private String testFallbackBranch = "fallback";
     private String projectName = "RemoteJenkinsFileProject";
@@ -141,10 +147,11 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         this.remoteJenkinsFileRepo.git("add", this.jenkinsFile);
         this.remoteJenkinsFileRepo.git("commit", "--all", "--message=RemoteJenkinsFileRepoTest");
         if( createFallbackBranchForJenkinsFile) {
-            this.remoteJenkinsFileRepo.git("checkout", "-b", this.testFallbackBranch,"master");
+            this.remoteJenkinsFileRepo.git("checkout", "-b", this.testFallbackBranch,this.jenkinsFileRepoBranch);
             this.remoteJenkinsFileRepo.git("branch", "-D", "master");
         }
-        this.remoteJenkinsFileRepoSCM = new GitSCM(remoteJenkinsFileRepo.toString());
+        List<UserRemoteConfig> repoList = GitSCM.createRepoList(remoteJenkinsFileRepo.toString(), "");
+        this.remoteJenkinsFileRepoSCM = new GitSCM(repoList,Arrays.asList(new BranchSpec("master"), new BranchSpec(this.testFallbackBranch)),null,null,null);
     }
 
     private void initRemoteJenkinsFileRepoWithPipelineScript() throws Exception {
@@ -181,7 +188,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
     private void checkBranchJobsAndLogs(WorkflowMultiBranchProject workflowMultiBranchProject, boolean checkForMatchBranch, boolean isLocalFileDefined, String fallBackBranch) throws Exception {
         // Check build num and logs for created Branch Jobs
         for (String branchName : this.scmBranches) {
-            String branchNameToCheck = branchName;
+            String branchNameToCheck = this.jenkinsFileRepoBranch;
             WorkflowJob branchJob = workflowMultiBranchProject.getJob(branchName);
             if ("master".equals(branchName) || !isLocalFileDefined) {
                 WorkflowRun lastBuild = branchJob.getLastBuild();

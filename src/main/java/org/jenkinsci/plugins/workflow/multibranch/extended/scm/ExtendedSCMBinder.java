@@ -169,4 +169,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
             return "N/A";
         return remoteJenkinsFileBranch;
     }
+
+    public boolean isMatchBranches() {
+        return matchBranches;
+    }
 }
