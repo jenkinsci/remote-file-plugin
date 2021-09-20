@@ -37,11 +37,13 @@ These variables are described below,
 -   RJPP_SCM_URL: URl of the repository as String which is defined in Remote Jenkinsfile Provider. 
     Comma separated if there are more than one URL definition.
 -   RJPP_JENKINSFILE: Script Path of the Jenkinsfile as defined in Remote Jenkinsfile Provider.
+-   RJPP_BRANCH: Branch name of the Jenkinsfile where it is cloned
 
 These variables can be retrieved same as other environment variables in Jenkins.
 ```groovy
 echo "${env.RJPP_SCM_URL}"
 echo "${env.RJPP_JENKINSFILE}"
+echo "${env.RJPP_BRANCH}"
 ```
 
 **This feature only works for Git SCM definitions**
