@@ -25,11 +25,11 @@ import java.util.Collection;
 public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranchProjectFactory {
 
 
-    private static final String defaultJenkinsFile = "Jenkinsfile";
-    private final String localMarker;
-    private String remoteJenkinsFile;
+    private static final String DEFAULT_JENKINS_FILE = "Jenkinsfile";
+    private String localMarker = "";
+    private String remoteJenkinsFile = "";
     private SCM remoteJenkinsFileSCM;
-    private Boolean matchBranches;
+    private Boolean matchBranches = false;
     private String scmSourceBranchName = "master";
     private String fallbackBranch = "master";
     private Boolean lookupInParameters = false;
@@ -53,7 +53,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
     @DataBoundSetter
     public void setRemoteJenkinsFile(String remoteJenkinsFile) {
         if (StringUtils.isEmpty(remoteJenkinsFile)) {
-            this.remoteJenkinsFile = RemoteJenkinsFileWorkflowBranchProjectFactory.defaultJenkinsFile;
+            this.remoteJenkinsFile = RemoteJenkinsFileWorkflowBranchProjectFactory.DEFAULT_JENKINS_FILE;
         } else {
             this.remoteJenkinsFile = remoteJenkinsFile;
         }
@@ -94,7 +94,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactory extends WorkflowBranc
      */
     @Override
     protected FlowDefinition createDefinition() {
-        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches, this.fallbackBranch, this.remoteJenkinsFile, this.lookupInParameters);
+        return new ExtendedSCMBinder(this.remoteJenkinsFile, this.remoteJenkinsFileSCM, this.scmSourceBranchName, this.matchBranches, this.fallbackBranch, this.remoteJenkinsFile, this.lookupInParameters, this.localMarker);
     }
 
     /**

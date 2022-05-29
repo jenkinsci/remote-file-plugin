@@ -24,14 +24,13 @@ import org.kohsuke.stapler.DataBoundSetter;
 public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends AbstractWorkflowMultiBranchProjectFactory {
 
     private static final String DEFAULT_JENKINS_FILE = "Jenkinsfile";
-
-    private String localMarker;
-    private String remoteJenkinsFile;
-    private SCM remoteJenkinsFileSCM;
-    private Boolean matchBranches;
-    private String scmSourceBranchName;
-    private String fallbackBranch;
+    private String localMarker = "";
+    private String remoteJenkinsFile = "";
     private Boolean lookupInParameters = false;
+    private Boolean matchBranches = false;
+    private String scmSourceBranchName = "master";
+    private String fallbackBranch = "master";
+    private SCM remoteJenkinsFileSCM;
 
     private RemoteJenkinsFileWorkflowMultiBranchProjectFactory() {
     }
