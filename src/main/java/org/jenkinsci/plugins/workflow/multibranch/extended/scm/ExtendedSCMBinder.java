@@ -29,13 +29,15 @@ public class ExtendedSCMBinder extends FlowDefinition {
     private String remoteJenkinsFile = "";
     private String remoteJenkinsFileBranch = "";
     private String originJenkinsFileDefinition = "";
-    private final Boolean lookupInParameters;
+    private String localMarker = "";
+    private Boolean lookupInParameters = false;
+    private Boolean matchBranches = false;
     private final SCM remoteJenkinsFileSCM;
-    private final String scmSourceBranchName;
-    private final boolean matchBranches;
-    private final String fallbackBranch;
+    private String scmSourceBranchName = "master";
+    private String fallbackBranch = "master";
     private final String matchBranchFailMessage;
     private final String matchBranchFallbackMessage;
+
 
     /**
      * Constructor for the class.
@@ -43,7 +45,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
      * @param remoteJenkinsFile    Path of the remote jenkins file from Remote Jenkins File Plugin descriptor
      * @param remoteJenkinsFileSCM SCM definition from Remote Jenkins File Plugin descriptor
      */
-    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches, String fallbackBranch, String originJenkinsFileDefinition, Boolean lookupInParameters) {
+    public ExtendedSCMBinder(String remoteJenkinsFile, SCM remoteJenkinsFileSCM, String scmSourceBranchName, boolean matchBranches, String fallbackBranch, String originJenkinsFileDefinition, Boolean lookupInParameters, String localMarker) {
         this.remoteJenkinsFile = remoteJenkinsFile;
         this.remoteJenkinsFileSCM = remoteJenkinsFileSCM;
         this.matchBranches = matchBranches;
@@ -54,6 +56,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
         this.matchBranchFallbackMessage = "Try to checkout " + this.fallbackBranch + " branch for Jenkins File.  ";
         this.originJenkinsFileDefinition = originJenkinsFileDefinition;
         this.lookupInParameters = lookupInParameters;
+        this.localMarker = localMarker;
     }
 
     /**
@@ -172,5 +175,9 @@ public class ExtendedSCMBinder extends FlowDefinition {
 
     public boolean isMatchBranches() {
         return matchBranches;
+    }
+
+    public String getLocalMarker() {
+        return localMarker;
     }
 }

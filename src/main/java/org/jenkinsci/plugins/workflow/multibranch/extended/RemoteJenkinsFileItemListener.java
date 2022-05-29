@@ -21,6 +21,7 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
     public static final String RJPP_SCM_ENV_NAME = "RJPP_SCM_URL";
     public static final String RJPP_JFILE_ENV_NAME = "RJPP_JENKINSFILE";
     public static final String RJPP_BRANCH_ENV_NAME = "RJPP_BRANCH";
+    public static final String RJPP_LOCAL_MARKER_ENV_NAME = "RJPP_LOCAL_MARKER";
 
     @Override
     public void buildEnvironmentFor(@NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener) throws IOException, InterruptedException {
@@ -41,6 +42,7 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
                     String jenkinsFile = extendedSCMBinder.getRemoteJenkinsFile();
                     envs.put(RemoteJenkinsFileItemListener.RJPP_SCM_ENV_NAME, scmUrls.toString());
                     envs.put(RemoteJenkinsFileItemListener.RJPP_JFILE_ENV_NAME, jenkinsFile);
+                    envs.put(RemoteJenkinsFileItemListener.RJPP_LOCAL_MARKER_ENV_NAME, extendedSCMBinder.getLocalMarker());
                     if( extendedSCMBinder.isMatchBranches())
                         envs.put(RemoteJenkinsFileItemListener.RJPP_BRANCH_ENV_NAME, extendedSCMBinder.getRemoteJenkinsFileBranch());
                     else
