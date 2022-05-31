@@ -5,7 +5,6 @@ import hudson.model.Label;
 import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.UserRemoteConfig;
-import hudson.scm.SCM;
 import hudson.slaves.DumbSlave;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
@@ -23,7 +22,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ALL")
 public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
