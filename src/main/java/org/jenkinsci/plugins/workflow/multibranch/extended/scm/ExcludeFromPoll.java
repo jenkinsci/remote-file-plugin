@@ -2,7 +2,9 @@ package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
-import hudson.model.*;
+import hudson.model.Descriptor;
+import hudson.model.DescriptorVisibilityFilter;
+import hudson.model.TaskListener;
 import hudson.plugins.git.GitChangeSet;
 import hudson.plugins.git.GitException;
 import hudson.plugins.git.GitSCM;
