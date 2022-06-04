@@ -141,8 +141,8 @@ THE SOFTWARE.
             <artifactId>mailer</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <artifactId>workflow-cps-global-lib</artifactId>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>pipeline-groovy-lib</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
