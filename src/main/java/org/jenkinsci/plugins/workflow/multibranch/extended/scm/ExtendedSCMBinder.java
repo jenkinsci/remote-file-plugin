@@ -182,6 +182,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
     }
 
     public String getLocalMarker() {
+        if( this.localMarker == null)
+            return "";
         return localMarker;
     }
 }
