@@ -30,15 +30,15 @@ public class LookupInParametersTest {
 
     private GitSCMSource sourceCodeRepoSCMSource;
     private GitSCM remoteJenkinsFileRepoSCM;
-    private String testFileInitialContent = "Initial Content of Test File";
-    private String jenkinsFileDefault = "Jenkinsfile";
-    private String jenkinsFile2 = "jenkinsFile2";
-    private String jenkinsFileParameter = "${JenkinsFileParam}";
-    private String[] scmBranches = {"master"};
-    private String projectName = "RemoteJenkinsFileProject";
-    private String pipelineScript1 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScriptDefault\"             }         }     } }";
-    private String pipelineScript2 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScript2\"             }         }     } }";
-    private String localFile = "pom.xml";
+    private final String testFileInitialContent = "Initial Content of Test File";
+    private final String jenkinsFileDefault = "Jenkinsfile";
+    private final String jenkinsFile2 = "jenkinsFile2";
+    private final String jenkinsFileParameter = "${JenkinsFileParam}";
+    private final String[] scmBranches = {"master"};
+    private final String projectName = "RemoteJenkinsFileProject";
+    private final String pipelineScript1 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScriptDefault\"             }         }     } }";
+    private final String pipelineScript2 = "pipeline{     agent any;     parameters {       string defaultValue: 'Jenkinsfile', description: '', name: 'JenkinsFileParam', trim: false};     stages{         stage('Test'){             steps{                 echo \"pipelineScript2\"             }         }     } }";
+    private final String localFile = "pom.xml";
 
     @Before
     public void setup() throws Exception {
