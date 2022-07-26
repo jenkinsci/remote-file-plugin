@@ -31,7 +31,7 @@ public class LookupInParametersTest {
     private GitSCMSource sourceCodeRepoSCMSource;
     private GitSCM remoteJenkinsFileRepoSCM;
     private String testFileInitialContent = "Initial Content of Test File";
-    private String jenkinsFileDefault = "jenkinsFile";
+    private String jenkinsFileDefault = "Jenkinsfile";
     private String jenkinsFile2 = "jenkinsFile2";
     private String jenkinsFileParameter = "${JenkinsFileParam}";
     private String[] scmBranches = {"master"};
