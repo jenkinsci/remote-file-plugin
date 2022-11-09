@@ -27,7 +27,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.40</version>
+        <version>4.50</version>
         <relativePath />
     </parent>
     <groupId>io.jenkins.plugins</groupId>
@@ -59,7 +59,7 @@ THE SOFTWARE.
     </scm>
     <properties>
         <java.version>1.8</java.version>
-        <jenkins.version>2.303.3</jenkins.version>
+        <jenkins.version>2.346.3</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>773.v4b_9b_005b_562b_</cloudbees-bitbucket-branch-source.version>
         <workflow-aggregator.version>581.v0c46fa_697ffd</workflow-aggregator.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -69,8 +69,8 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.303.x</artifactId>
-                <version>1409.v7659b_c072f18</version>
+                <artifactId>bom-2.346.x</artifactId>
+                <version>1678.vc1feb_6a_3c0f1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
