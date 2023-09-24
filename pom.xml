@@ -53,15 +53,14 @@ THE SOFTWARE.
     </developers>
     <scm>
         <connection>scm:git:ssh://github.com/jenkinsci/remote-file-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/remote-file-plugin.git</developerConnection>
+        <developerConnection>scm:git:git@github.com/jenkinsci/remote-file-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/remote-file-plugin</url>
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <java.version>1.8</java.version>
         <jenkins.version>2.303.3</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>796.v6cb_1559e1673</cloudbees-bitbucket-branch-source.version>
-        <workflow-aggregator.version>581.v0c46fa_697ffd</workflow-aggregator.version>
+        <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
 
@@ -70,7 +69,7 @@ THE SOFTWARE.
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
                 <artifactId>bom-2.303.x</artifactId>
-                <version>1409.v7659b_c072f18</version>
+                <version>1500.ve4d05cd32975</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
