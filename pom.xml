@@ -32,7 +32,7 @@ THE SOFTWARE.
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>remote-file</artifactId>
-    <version>HEAD</version>
+    <version>1.24-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>Remote Jenkinsfile Provider</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
