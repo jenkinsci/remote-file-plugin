@@ -27,7 +27,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.55</version>
+        <version>4.88</version>
         <relativePath />
     </parent>
     <groupId>io.jenkins.plugins</groupId>
@@ -58,9 +58,10 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
-        <jenkins.version>2.361.4</jenkins.version>
+        <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
+        <jenkins.baseline>2.452</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>796.v6cb_1559e1673</cloudbees-bitbucket-branch-source.version>
-        <java.version>11</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
@@ -68,8 +69,8 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.361.x</artifactId>
-                <version>1763.v092b_8980a_f5e</version>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
+                <version>3875.v1df09947cde6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -174,7 +175,6 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>cloudbees-bitbucket-branch-source</artifactId>
-            <version>${cloudbees-bitbucket-branch-source.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
