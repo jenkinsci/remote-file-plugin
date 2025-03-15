@@ -55,7 +55,7 @@ THE SOFTWARE.
         <connection>scm:git:git@github.com:jenkinsci/remote-file-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/remote-file-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/remote-file-plugin</url>
-        <tag>remote-file-1.24</tag>
+        <tag>${scmTag}</tag>
     </scm>
     <properties>
         <jenkins.version>2.452.4</jenkins.version>
