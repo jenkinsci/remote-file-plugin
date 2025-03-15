@@ -84,9 +84,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
                 String newJenkinsFile = "Jenkinsfile";
                 //Search for ParametersAction in Actions
                 for (Action action : actions) {
-                    if (action instanceof ParametersAction) {
-                        //This can be the parameter that we are looking for
-                        ParametersAction parametersAction = (ParametersAction) action;
+                    if (action instanceof ParametersAction parametersAction) {
                         //Check if the parameter name matches with JenkinsfileParameter
                         ParameterValue parameterValue = parametersAction.getParameter(jenkinsfileParameterName);
                         if( parameterValue != null) {
@@ -144,7 +142,7 @@ public class ExtendedSCMBinder extends FlowDefinition {
         @Override
         public boolean filter(Object context, @NonNull Descriptor descriptor) {
             if (descriptor instanceof DescriptorImpl) {
-                return context instanceof WorkflowJob && ((WorkflowJob) context).getParent() instanceof WorkflowMultiBranchProject;
+                return context instanceof WorkflowJob wj && wj.getParent() instanceof WorkflowMultiBranchProject;
             }
             return true;
         }

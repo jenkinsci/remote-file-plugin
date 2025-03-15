@@ -27,12 +27,10 @@ public class RemoteJenkinsFileItemListener extends EnvironmentContributor {
 
     @Override
     public void buildEnvironmentFor(@NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener) throws IOException, InterruptedException {
-        if (r instanceof WorkflowRun) {
-            WorkflowRun workflowRun = (WorkflowRun) r;
+        if (r instanceof WorkflowRun workflowRun) {
             WorkflowJob workflowJob = workflowRun.getParent();
             FlowDefinition flowDefinition = workflowJob.getDefinition();
-            if (flowDefinition instanceof ExtendedSCMBinder) {
-                ExtendedSCMBinder extendedSCMBinder = (ExtendedSCMBinder) flowDefinition;
+            if (flowDefinition instanceof ExtendedSCMBinder extendedSCMBinder) {
                 if (extendedSCMBinder.getRemoteJenkinsFileSCM() instanceof GitSCM) {
                     GitSCM gitSCM = (GitSCM) extendedSCMBinder.getRemoteJenkinsFileSCM();
                     StringJoiner scmUrls = new StringJoiner(",");
