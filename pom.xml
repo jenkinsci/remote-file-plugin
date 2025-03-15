@@ -60,7 +60,6 @@ THE SOFTWARE.
     <properties>
         <jenkins.version>2.452.4</jenkins.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
     </properties>
     <dependencyManagement>
         <dependencies>
