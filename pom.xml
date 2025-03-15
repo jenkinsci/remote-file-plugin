@@ -58,9 +58,8 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
-        <jenkins.version>2.452.1</jenkins.version>
+        <jenkins.version>2.452.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>886.v44cf5e4ecec5</cloudbees-bitbucket-branch-source.version>
-        <java.version>17</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
     </properties>
@@ -69,7 +68,7 @@ THE SOFTWARE.
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
                 <artifactId>bom-2.452.x</artifactId>
-                <version>3105.v672692894683</version>
+                <version>3944.v1a_e4f8b_452db_</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -147,18 +146,16 @@ THE SOFTWARE.
             <artifactId>script-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>commons-lang3-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>credentials</artifactId>
         </dependency>
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.12.7</version>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>joda-time-api</artifactId>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>
