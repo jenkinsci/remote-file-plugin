@@ -148,7 +148,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         if (dumbSlave == null)
             this.remoteJenkinsFileRepo.write(this.jenkinsFile, this.pipelineScript);
         else {
-            this.pipelineScriptWithSlave = String.format(this.pipelineScriptWithSlave, dumbSlave.getLabelString());
+            this.pipelineScriptWithSlave = this.pipelineScriptWithSlave.formatted(dumbSlave.getLabelString());
             this.remoteJenkinsFileRepo.write(this.jenkinsFile, this.pipelineScriptWithSlave);
         }
         this.remoteJenkinsFileRepo.git("add", this.jenkinsFile);
