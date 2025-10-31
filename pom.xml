@@ -32,8 +32,8 @@ THE SOFTWARE.
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>remote-file</artifactId>
-    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
+    <version>${revision}${changelist}</version>
     <name>Remote Jenkinsfile Provider</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
     </description>
@@ -58,13 +58,12 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
-        <jenkins.baseline>2.361</jenkins.baseline>
-        <jenkins.version>${jenkins.baseline}.4</jenkins.version>
+        <jenkins.baseline>2.516</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
         <revision>999999</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>${jenkins.baseline}}.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>937.2.1</cloudbees-bitbucket-branch-source.version>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
     </properties>
@@ -72,8 +71,8 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-${jenkins.baseline}}.x</artifactId>
-                <version>2102.v854b_fec19c92</version>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
+                <version>5577.vea_979d35b_b_ff</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
