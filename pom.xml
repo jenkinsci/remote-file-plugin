@@ -64,7 +64,7 @@ THE SOFTWARE.
         <cloudbees-bitbucket-branch-source.version>796.v6cb_1559e1673</cloudbees-bitbucket-branch-source.version>
         <java.version>11</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-lang3.version>3.19.0</commons-lang3.version>
     </properties>
     <dependencyManagement>
         <dependencies>
