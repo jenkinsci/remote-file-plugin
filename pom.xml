@@ -58,7 +58,7 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
-        <revision>1.25</revision>
+        <revision>999999</revision>
         <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.361.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>796.v6cb_1559e1673</cloudbees-bitbucket-branch-source.version>
