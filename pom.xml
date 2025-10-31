@@ -58,9 +58,11 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
+        <jenkins.baseline>2.361</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.4</jenkins.version>
         <revision>999999</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>2.361.4</jenkins.version>
+        <jenkins.version>${jenkins.baseline}}.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>937.2.1</cloudbees-bitbucket-branch-source.version>
         <java.version>11</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
@@ -70,7 +72,7 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.361.x</artifactId>
+                <artifactId>bom-${jenkins.baseline}}.x</artifactId>
                 <version>2102.v854b_fec19c92</version>
                 <type>pom</type>
                 <scope>import</scope>
