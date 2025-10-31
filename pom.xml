@@ -32,7 +32,7 @@ THE SOFTWARE.
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>remote-file</artifactId>
-    <version>1.25-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
     <name>Remote Jenkinsfile Provider</name>
     <description>Enables definition of external Jenkinsfile from another repository for Multibranch Pipeline Projects.
@@ -58,6 +58,8 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
+        <revision>1.25</revision>
+        <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.361.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>796.v6cb_1559e1673</cloudbees-bitbucket-branch-source.version>
         <java.version>11</java.version>
