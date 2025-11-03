@@ -48,18 +48,15 @@ public class ExcludeFromChangeSet extends GitSCMExtension {
 
         @Override
         public void onCheckout(Run<?, ?> build, SCM scm, FilePath workspace, TaskListener listener, @CheckForNull File changelogFile, @CheckForNull SCMRevisionState pollingBaseline) throws Exception {
-            if (!(build instanceof WorkflowRun)) {
+            if (!(build instanceof WorkflowRun workflowRun)) {
                 return;
             }
-            WorkflowRun workflowRun = (WorkflowRun) build;
-            WorkflowJob workflowJob = ((WorkflowRun) build).getParent();
+            WorkflowJob workflowJob = workflowRun.getParent();
             FlowDefinition flowDefinition = workflowJob.getDefinition();
-            if (!(flowDefinition instanceof ExtendedSCMBinder)) {
+            if (!(flowDefinition instanceof ExtendedSCMBinder extendedSCMBinder)) {
                 return;
             }
-            ExtendedSCMBinder extendedSCMBinder = (ExtendedSCMBinder) flowDefinition;
-            if ( extendedSCMBinder.getRemoteJenkinsFileSCM() instanceof GitSCM) {
-                GitSCM remoteJenkinsFileSCM = (GitSCM) extendedSCMBinder.getRemoteJenkinsFileSCM();
+            if (extendedSCMBinder.getRemoteJenkinsFileSCM() instanceof GitSCM remoteJenkinsFileSCM) {
                 if (remoteJenkinsFileSCM.getKey().equals(scm.getKey())) {
                     DescribableList<GitSCMExtension, GitSCMExtensionDescriptor> extensions = remoteJenkinsFileSCM.getExtensions();
                     for (GitSCMExtension gitSCMExtension : extensions) {

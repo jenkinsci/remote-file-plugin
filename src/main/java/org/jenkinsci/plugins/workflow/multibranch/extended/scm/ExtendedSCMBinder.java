@@ -84,9 +84,8 @@ public class ExtendedSCMBinder extends FlowDefinition {
                 String newJenkinsFile = "Jenkinsfile";
                 //Search for ParametersAction in Actions
                 for (Action action : actions) {
-                    if (action instanceof ParametersAction) {
-                        //This can be the parameter that we are looking for
-                        ParametersAction parametersAction = (ParametersAction) action;
+                    //This can be the parameter that we are looking for
+                    if (action instanceof ParametersAction parametersAction) {
                         //Check if the parameter name matches with JenkinsfileParameter
                         ParameterValue parameterValue = parametersAction.getParameter(jenkinsfileParameterName);
                         if( parameterValue != null) {
