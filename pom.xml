@@ -65,7 +65,7 @@ THE SOFTWARE.
         <jenkins.version>${jenkins.baseline}}.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>937.2.1</cloudbees-bitbucket-branch-source.version>
         <java.version>11</java.version>
-        <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
+        <workflow-aggregator.version>608.v67378e9d3db_1</workflow-aggregator.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
     </properties>
     <dependencyManagement>
