@@ -24,20 +24,23 @@ public class LocalMarkerSCMSourceCriteria {
         }
 
         SCMProbeStat stat = probe.stat(localMarker);
-        switch (stat.getType()) {
-            case NONEXISTENT:
+        return switch (stat.getType()) {
+            case NONEXISTENT -> {
                 if (stat.getAlternativePath() != null) {
                     taskListener.getLogger().format("      ‘%s’ not found (but found ‘%s’, search is case sensitive)%n", localMarker, stat.getAlternativePath());
                 } else {
                     taskListener.getLogger().format("      ‘%s’ not found%n", localMarker);
                 }
-                return false;
-            case DIRECTORY:
+                yield false;
+            }
+            case DIRECTORY -> {
                 taskListener.getLogger().format("      ‘%s’ found directory%n", localMarker);
-                return true;
-            default:
+                yield true;
+            }
+            default -> {
                 taskListener.getLogger().format("      ‘%s’ found%n", localMarker);
-                return true;
-        }
+                yield true;
+            }
+        };
     }
 }
