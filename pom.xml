@@ -62,7 +62,6 @@ THE SOFTWARE.
         <jenkins.version>${jenkins.baseline}.4</jenkins.version>
         <revision>999999</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>${jenkins.baseline}}.4</jenkins.version>
         <cloudbees-bitbucket-branch-source.version>937.2.1</cloudbees-bitbucket-branch-source.version>
         <java.version>11</java.version>
         <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
@@ -73,7 +72,7 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-${jenkins.baseline}}.x</artifactId>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
                 <version>2102.v854b_fec19c92</version>
                 <type>pom</type>
                 <scope>import</scope>
