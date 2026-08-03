@@ -58,22 +58,20 @@ THE SOFTWARE.
         <tag>remote-file-1.24</tag>
     </scm>
     <properties>
-        <jenkins.baseline>2.361</jenkins.baseline>
-        <jenkins.version>${jenkins.baseline}.4</jenkins.version>
+        <jenkins.baseline>2.479</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
         <revision>999999</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>${jenkins.baseline}}.4</jenkins.version>
-        <cloudbees-bitbucket-branch-source.version>937.2.1</cloudbees-bitbucket-branch-source.version>
-        <java.version>11</java.version>
-        <workflow-aggregator.version>596.v8c21c963d92d</workflow-aggregator.version>
+        <java.version>17</java.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
+        <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-${jenkins.baseline}}.x</artifactId>
-                <version>2102.v854b_fec19c92</version>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
+                <version>5054.v620b_5d2b_d5e6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -100,7 +98,7 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-aggregator</artifactId>
-            <version>${workflow-aggregator.version}</version>
+            <version>608.v67378e9d3db_1</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
@@ -178,7 +176,6 @@ THE SOFTWARE.
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>cloudbees-bitbucket-branch-source</artifactId>
-            <version>${cloudbees-bitbucket-branch-source.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

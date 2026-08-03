@@ -3,7 +3,6 @@ package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 import hudson.model.TaskListener;
 import jenkins.scm.api.SCMProbeStat;
 import jenkins.scm.api.SCMSourceCriteria.Probe;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 
@@ -18,7 +17,7 @@ public class LocalMarkerSCMSourceCriteria {
      */
     public static boolean matches(String localMarker, Probe probe, TaskListener taskListener) throws IOException {
         // Match all if local file is not specified
-        if (StringUtils.isEmpty(localMarker)) {
+        if (localMarker == null || localMarker.isEmpty()) {
             taskListener.getLogger().println("No local file defined. Skipping Source Code SCM probe, since Jenkinsfile will be provided by Remote Jenkins File Plugin");
             return true;
         }
