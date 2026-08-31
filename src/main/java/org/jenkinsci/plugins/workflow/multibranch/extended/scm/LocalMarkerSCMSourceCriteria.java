@@ -3,7 +3,7 @@ package org.jenkinsci.plugins.workflow.multibranch.extended.scm;
 import hudson.model.TaskListener;
 import jenkins.scm.api.SCMProbeStat;
 import jenkins.scm.api.SCMSourceCriteria.Probe;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
